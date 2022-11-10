@@ -62,6 +62,7 @@
 
 	body: JSON.stringify({ // json 형식
 		tid: tid // 해당 tid에 링크된 모든 카테고리 값들을 가져올 것을 요청
+		// 중요 특이사항: tid: 0일 경우 모든 category (distinct) 값을 가져와야함
 	}),
 	```
 	// params.XX 는 문자열 데이터
@@ -85,6 +86,9 @@
 		page: (params.page - 1),
 	}),
 	```
+
+4. Todo List 등록 요청
+5. Todo List 수정 요청 (완료 <=> 미완 표시 등 포함)
 
 
 ### 데이터 형식

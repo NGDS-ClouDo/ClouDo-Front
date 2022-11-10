@@ -45,12 +45,26 @@ app.post("/cats", (req, res) => {
 
 app.post("/category", (req, res) => {
 	console.log(req.body);
-	db.query("SELECT * FROM todoCategory WHERE tid = " + req.body.tid , async function (err, rows, fields) {
-		if (err) {
-			console.log("데이터 가져오기 실패");
-		} else {
-			console.log(rows);
-			await res.send(rows);
-		}
-	});
+	if (req.body.tid !== 0)
+	{
+		db.query("SELECT * FROM todoCategory WHERE tid = " + req.body.tid , async function (err, rows, fields) {
+			if (err) {
+				console.log("데이터 가져오기 실패");
+			} else {
+				console.log(rows);
+				await res.send(rows);
+			}
+		});
+	}
+	else{
+		db.query("SELECT distinct category FROM todoCategory" , async function (err, rows, fields) {
+			if (err) {
+				console.log("데이터 가져오기 실패");
+			} else {
+				console.log(rows);
+				await res.send(rows);
+			}
+		});
+		
+	}
 });

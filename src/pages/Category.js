@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import NavigationBar from "./fragments/NavigationBar";
 import TODOList from "./TODOList";
+import AllCatForm from "./forms/AllCatForm";
 import "./Category.css";
 
 const Category = () => {
@@ -293,6 +294,10 @@ const Category = () => {
 									: " 미포함")}
 					</button>
 				</Link>
+			</div>
+			<h4>All Categories</h4>
+			<div>
+				<AllCatForm params={paramString}/>
 			</div>
 			<h4>search</h4>
 			<div>
