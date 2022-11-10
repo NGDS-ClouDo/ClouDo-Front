@@ -13,9 +13,14 @@
 * src: 리액트 페이지 파일들
 * public: 프론트 페이지에 노출될 asset들 (이미지, 영상 등)
 
-## 프론트에서 백으로 보내는 http 명세
+## 아직 협의되지 않은 내용
+
+* 프론트에서 백으로 보내는 http 명세
+* 데이터 형식
+
+### 프론트에서 백으로 보내는 http 명세
 ```
-//백엔드 서버: http://localhost:3001/data (백엔드 요청에 따라 변동예정)
+백엔드 서버: http://localhost:3001/data (백엔드 요청에 따라 변동예정)
 
 method: post
 
@@ -33,7 +38,7 @@ body: JSON.stringify({ // json 형식
 ```
 // params.XX 는 문자열 데이터
 
-## 데이터 형식
+### 데이터 형식
 
 ```
 create table todoData(
