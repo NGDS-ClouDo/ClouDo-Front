@@ -30,23 +30,62 @@
 * 데이터 형식
 
 ### 프론트에서 백으로 보내는 http 명세
-```
-백엔드 서버: http://localhost:3001/data (백엔드 요청에 따라 변동예정)
+1. Todo list data 요청
 
-method: post
+	```
+	백엔드 서버: http://localhost:3001/data (백엔드 요청에 따라 변동예정)
 
-headers:
-	"content-type": "application/json",
+	method: post
 
-body: JSON.stringify({ // json 형식
-	range: "all", "done", "undone" // all 일 경우 완료 여부 상관없이 출력, done일 경우 완료항목만, undone일 경우 완료되지 않은 항목만.
-	search_string: params.search, // 이름 또는 내용에서 params.search 를 포함하는 항목들을 요청
-	order_by: params.order, // 정렬 기준(날짜, 제목, 마감일? 등)
-	order: params.desc, // 오름차순 내림차순
-	page: (params.page - 1), // 몇 번째 페이지 인지 => 1 페이지부터 시작, 1페이지에는 10개의 TODO List 노출
-}),
-```
-// params.XX 는 문자열 데이터
+	headers:
+		"content-type": "application/json",
+
+	body: JSON.stringify({ // json 형식
+		range: {"all", "done", "undone"}, // all 일 경우 완료 여부 상관없이 출력, done일 경우 완료항목만, undone일 경우 완료되지 않은 항목만.
+		search_string: params.search, // 이름 또는 내용에서 params.search 를 포함하는 항목들을 요청
+		order_by: params.order, // 정렬 기준(날짜, 제목, 마감일? 등)
+		order: params.desc, // 오름차순 내림차순
+		page: (params.page - 1), // 몇 번째 페이지 인지 => 1 페이지부터 시작, 1페이지에는 10개의 TODO List 노출
+	}),
+	```
+	// params.XX 는 문자열 데이터
+
+2. todo list 에 링크된 카테고리를 가져오는 요청
+
+	```
+	백엔드 서버: http://localhost:3001/category (백엔드 요청에 따라 변동예정)
+
+	method: post
+
+	headers:
+		"content-type": "application/json",
+
+	body: JSON.stringify({ // json 형식
+		tid: tid // 해당 tid에 링크된 모든 카테고리 값들을 가져올 것을 요청
+	}),
+	```
+	// params.XX 는 문자열 데이터
+
+3. 요쳥한 category 값을 보유하는 모든 Todo List를 가져오는 요청
+
+	```
+	백엔드 서버: http://localhost:3001/category (백엔드 요청에 따라 변동예정)
+
+	method: post
+
+	headers:
+		"content-type": "application/json",
+
+	body: JSON.stringify({ // json 형식
+		category: params.category, // 여기에 해당하는 모든 todoList를 요청
+		range: {"all", "done", "undone"},
+		search_string: params.search,
+		order_by: params.order,
+		order: params.desc,
+		page: (params.page - 1),
+	}),
+	```
+
 
 ### 데이터 형식
 
@@ -57,5 +96,13 @@ create table todoData(
     t_created_date datetime default now(), // 생성일
     t_due_date datetime, // 완료 기일
     t_memo varchar(10000) // 내용
+);
+
+create table todoCategory(
+	tid int,
+    category varchar(200),
+    
+    foreign key (tid) references todoData(tid),
+    primary key (tid, category)
 );
 ```
