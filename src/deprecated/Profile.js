@@ -4,8 +4,8 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import ActorProfileForm from "./forms/ActorProfileForm";
 import DirectorProfile from "./DirectorProfile";
 import DirectorProfileForm from "./forms/DirectorProfileForm";
-import Genre from "./Genre";
-import GenreForm from "./forms/GenreForm";
+import Genre from "./Category";
+import GenreForm from "./forms/CategoryForm";
 import "./Profile.css";
 import NavigationBar from "./fragments/NavigationBar";
 

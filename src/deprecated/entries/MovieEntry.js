@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import GenreForm from "../GenreForm";
+import GenreForm from "../CategoryForm";
 import "./MovieEntry.css";
 
 function MovieE({ movie }) {

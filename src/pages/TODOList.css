@@ -1,12 +1,12 @@
-.movieInfo{
+.todoInfo{
     margin: 2em;
 	width: 80%;
 }
-.movieBasicInfo{
+.todoBasicInfo{
     margin: 2em;
 
 }
-.movieList{
+.todoList{
 	font-family: '나눔고딕',NanumGothic,'돋움',Dotum,Helvetica,AppleSDGothicNeo-Medium,AppleGothic,sans-serif;
 	width: 80%;
     margin-left: 10%;
@@ -17,6 +17,13 @@
     border:2px solid orange;
     background-color: antiquewhite;
 }
-.entryMovieImage{
-	width:250px
+.todoElement{
+	padding: 10px;
+	margin: 2px;
+	border: 1px solid gray;
+    border-radius: 10px;
+    background-color: bisque;
+    margin-bottom: 1em;
+    margin-right: 1em;
+    border:2px solid orange;
 }

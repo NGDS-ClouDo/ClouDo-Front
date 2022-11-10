@@ -5,7 +5,18 @@
 
 # 시작 방법
 
-`npm start`
+0. MYSQL DB 준비
+
+	* ./server/connections.js 파일을 자신의 환경에 맞게 수정
+	* 첨부된 SQL 문 참고하여 테이블과 더미 데이터 생성
+
+1. 프로젝트 디렉터리에서
+
+	`npm start`
+
+2. ./server 디렉터리에서
+
+	`node server.js`
 
 ## 내용
 
@@ -28,8 +39,7 @@ headers:
 	"content-type": "application/json",
 
 body: JSON.stringify({ // json 형식
-	all: true, false // true 일 경우 완료 여부 상관없이 출력(done 은 무시됨), false일 경우 done을 확인해야함.
-	done: true, false // true일 경우 완료 항목을 요청하는 상황, false일 경우 완료하지 않은 항목을 요청
+	range: "all", "done", "undone" // all 일 경우 완료 여부 상관없이 출력, done일 경우 완료항목만, undone일 경우 완료되지 않은 항목만.
 	search_string: params.search, // 이름 또는 내용에서 params.search 를 포함하는 항목들을 요청
 	order_by: params.order, // 정렬 기준(날짜, 제목, 마감일? 등)
 	order: params.desc, // 오름차순 내림차순

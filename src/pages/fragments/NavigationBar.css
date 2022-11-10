@@ -1,5 +1,6 @@
 
 .navigationBar{
+	display: flex;
     margin-bottom: 2em;
     background-color: aquamarine;
     width: 100%;
@@ -15,7 +16,7 @@
     border:1px solid black;
 }
 
-.nav_MovieBtn{
+.nav_TDLBtn{
     margin-left: 1em;
     margin-right: 1em;
     text-decoration: none;

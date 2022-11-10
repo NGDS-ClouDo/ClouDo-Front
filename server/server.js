@@ -21,68 +21,36 @@ app.listen(port, () => {
 
 app.post("/data", (req, res) => {
 	console.log(req.body);
-	if (req.body.all) {
-		db.query("SELECT * FROM movie", async function (err, rows, fields) {
-			if (err) {
-				console.log("데이터 가져오기 실패");
-			} else {
-				console.log(rows);
-				await res.send(rows);
-			}
-		});
-	} else {
-		db.query(req.body.query, async function (err, rows, fields) {
-			if (err) {
-				console.log("데이터 가져오기 실패");
-			} else {
-				console.log(rows);
-				if (req.body.double) {
-					await db.query(
-						req.body.querySecond,
-						async function (errt, rowst, fieldst) {
-							if (errt) {
-								console.log("데이터 가져오기 실패");
-								await res.send(rows);
-							} else {
-								if (req.body.triple) {
-									await db.query(
-										req.body.queryThird,
-										async function (
-											errtt,
-											rowstt,
-											fieldstt
-										) {
-											if (errtt) {
-												console.log(
-													"데이터 가져오기 실패"
-												);
-												await res.send({
-													first: rows,
-													second: rowst,
-												});
-											} else {
-												await res.send({
-													first: rows,
-													second: rowst,
-													third: rowstt,
-												});
-											}
-										}
-									);
-								} else {
-									console.log(rowst);
-									await res.send({
-										first: rows,
-										second: rowst,
-									});
-								}
-							}
-						}
-					);
-				} else {
-					await res.send(rows);
-				}
-			}
-		});
-	}
+	db.query("SELECT * FROM todoData", async function (err, rows, fields) {
+		if (err) {
+			console.log("데이터 가져오기 실패");
+		} else {
+			console.log(rows);
+			await res.send(rows);
+		}
+	});
+});
+
+app.post("/cats", (req, res) => {
+	console.log(req.body);
+	db.query("SELECT * FROM todoData as td, todoCategory as tc WHERE tc.category = \""+req.body.category+"\" and tc.tid = td.tid;", async function (err, rows, fields) {
+		if (err) {
+			console.log("데이터 가져오기 실패");
+		} else {
+			console.log(rows);
+			await res.send(rows);
+		}
+	});
+});
+
+app.post("/category", (req, res) => {
+	console.log(req.body);
+	db.query("SELECT * FROM todoCategory WHERE tid = " + req.body.tid , async function (err, rows, fields) {
+		if (err) {
+			console.log("데이터 가져오기 실패");
+		} else {
+			console.log(rows);
+			await res.send(rows);
+		}
+	});
 });

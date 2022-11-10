@@ -1,7 +1,7 @@
 import { wait } from "@testing-library/user-event/dist/utils";
 import React, { Component, useRef } from "react";
 import "./pages/forms/entries/MovieEntry.css";
-import MovieList from "../pages/MovieList";
+import TODOList from "../pages/TODOList";
 
 class Example3 extends Component {
 	state = {
@@ -151,7 +151,7 @@ class Example3 extends Component {
 				<div>
 					<h1>{this.state.movies.length}</h1>
 					<br></br>
-					<MovieList movies={this.state.movies} />
+					<TODOList movies={this.state.movies} />
 				</div>
 			</div>
 		);
