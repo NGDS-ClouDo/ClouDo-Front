@@ -8,7 +8,7 @@
 0. MYSQL DB 준비
 
 	* ./server/connections.js 파일을 자신의 환경에 맞게 수정
-	* 첨부된 SQL 문 참고하여 테이블과 더미 데이터 생성
+	* ./dbScheme/ 에 첨부된 SQL 문 참고하여 테이블과 더미 데이터 생성
 
 1. 프로젝트 디렉터리에서
 
