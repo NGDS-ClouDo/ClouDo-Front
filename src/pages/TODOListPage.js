@@ -1,18 +1,149 @@
 import { useEffect, useState } from "react";
-import { Link, Navigate, useNavigate, useParams } from "react-router-dom";
+import { Link,  useNavigate, useParams } from "react-router-dom";
 import NavigationBar from "./fragments/NavigationBar";
 import TODOList from "./TODOList";
-import "./TODOListPage.css";
+import "./TODOListPage.css";import "./TODOList.css";
+import moment from "moment";
+
+
 
 const TODOListPage = () => {
 	const params = useParams();
 	const navigate = useNavigate();
+	const [AddToDo, setAddToDo] = useState(false);
+	const onClickAddToDoBtn = () =>{setAddToDo(!AddToDo)};
 	const [searchInput, setSearchInput] = useState("");
 	const [paramString, setParamString] = useState("");
 	const page = parseInt(params.page);
 	const [loading, setLoading] = useState(true);
 	const [todoDataList, setTodoDataList] = useState([]);
 	const onChangeSearchInput = (e) => setSearchInput(e.target.value);
+
+	const TODOAdd = ({paramString}) => {
+		const [tName, setTName] = useState("");
+		const onChangeTName = (e) => setTName(e.target.value);
+		const navigate = useNavigate();
+		const [tCategory, setTCategory] = useState("");
+		const onChangeTCategory = (e) => setTCategory(e.target.value);
+		const [tDueDate, setTDueDate] = useState("2022-12-05 00:00:00");
+		const onChangeTDueDateD = (e) => {
+			setTDueDate(e.target.value+" "+
+			moment(tDueDate).format(
+				"HH:mm:00"
+			));};
+		const onChangeTDueDateT = (e) => {
+			setTDueDate(moment(tDueDate).format(
+				"YYYY-MM-DD"
+			)+" "+e.target.value);};
+		const [tDone, setTDone] = useState("0");
+		const [tMemo, setTMemo] = useState("");
+		const onChangeTMemo = (e) => setTMemo(e.target.value);
+		const onClickConfirm = () => {
+			fetch("http://localhost:3001/NewToDo", {
+				method: "put", //통신방법
+				headers: {
+					"content-type": "application/json",
+				},
+				body: JSON.stringify({
+					t_name: tName,
+					t_due_date: tDueDate,
+					t_done: tDone,
+					t_memo: tMemo,
+					cat: tCategory
+				}),
+			});
+			navigate(
+				"/TODOListPage"+paramString
+			);
+			setAddToDo(!AddToDo);
+		};
+		const onClickDone = () => {
+			tDone ==="1" ? setTDone("0"):setTDone("1")
+		};
+		return (
+			<div className="todoElement">
+				<div className="todoInfo">
+					<div className="todoBasicInfo">
+						{/* <Link to={"/profiles/" + todoData.tid} className="todoDataTitle">
+							{todoData.t_name}
+						</Link> */}
+						<div>
+							제목 {"\t"}: {"\t"} 
+								<input
+									type="text"
+									name="tName"
+									placeholder={"필수"}
+									onChange={onChangeTName}
+								/>
+						</div>
+						
+						<br></br>
+						<div>
+							카테고리 {"\t"}: {"\t"}
+								<input
+									type="text"
+									name="tCategory"
+									placeholder={"선택"}
+									onChange={onChangeTCategory}
+								/>
+						</div>
+						<br></br>
+						<br></br>
+						<div>
+							마감일 {"\t"}: {"\t"}
+							<div>
+								<input
+									type="date"
+									name="tName"
+									value={moment(tDueDate).format(
+										"YYYY-MM-DD"
+									)}
+									onChange={onChangeTDueDateD}
+								/>
+								<input
+									type="time"
+									name="tName"
+									value={moment(tDueDate).format(
+										"HH:mm:00"
+									)}
+									onChange={onChangeTDueDateT}
+								/> 
+								{tDueDate}
+							</div>
+						</div>
+						<br></br>
+						<div>
+							완료 여부 {"\t"}: {"\t"} 
+					<button
+						className={
+							tDone === "1"
+								? "selectedOrderBtn"
+								: "unselectedOrderBtn"
+						}
+						onClick = {onClickDone}
+					>
+						{(tDone === "1" ? "완료" : "미완")}
+					</button>
+						</div>
+						<br></br>
+						<div className="memo">
+							<h2>내용</h2>
+								<input
+									type="text"
+									name="tMemo"
+									placeholder={tMemo}
+									value={tMemo}
+									onChange={onChangeTMemo}
+								/>
+						</div>
+					</div>
+				</div>
+					<br></br>
+					<button onClick={onClickConfirm}>확인</button>
+					<br></br>
+			</div>
+		);
+	}
 	const onClickSearch = () => {
 		navigate(
 			"/TODOListPage/"+params.range+"/" +
@@ -283,6 +414,10 @@ const TODOListPage = () => {
 				/>
 				<button onClick={onClickSearch}>검색</button>
 			</div>
+			<br></br>
+			<h3>ToDo List 추가</h3>
+			
+			{AddToDo ? <div><TODOAdd paramString={paramString}></TODOAdd><button onClick={onClickAddToDoBtn}>취소</button></div>:<button onClick={onClickAddToDoBtn}>추가</button>}
 			<br></br>
 			<TODOList todoDataList={todoDataList} params={paramString} />
 			<br></br>

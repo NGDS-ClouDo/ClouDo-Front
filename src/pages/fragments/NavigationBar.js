@@ -16,7 +16,7 @@ function NavigationBar() {
 			</div>
 			<div>
 				<Link to="/category/ /all/ /t_created_date/asc/1" className="nav_TDLBtn">
-					TODO List
+					Search by Category
 				</Link>
 			</div>
 		</div>

@@ -2,6 +2,7 @@ import { Route, Routes } from "react-router-dom";
 import Home from "./pages/Home";
 import Category from "./pages/Category";
 import TODOListPage from "./pages/TODOListPage";
+import TodoEditForm from "./pages/TODOEdit"
 
 const App = () => {
 	return (
@@ -15,6 +16,10 @@ const App = () => {
 			<Route
 				path="/category/:category/:range/:search/:order/:desc/:page"
 				element={<Category/>}
+			/>
+			<Route
+				path="/TodoEditForm/:tid"
+				element={<TodoEditForm/>}
 			/>
 		</Routes>
 	);

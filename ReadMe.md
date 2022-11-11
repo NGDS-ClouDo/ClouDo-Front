@@ -100,7 +100,8 @@ create table todoData(
     t_name varchar(200), // 작업 이름
     t_created_date datetime default now(), // 생성일
     t_due_date datetime, // 완료 기일
-    t_memo varchar(10000) // 내용
+    t_memo varchar(10000), // 내용
+    t_done boolean // 완료 여부
 );
 
 create table todoCategory(
