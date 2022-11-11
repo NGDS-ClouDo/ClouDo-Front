@@ -78,11 +78,6 @@ app.put("/TodoEdit", (req, res) => {
 
 app.put("/NewTodo", (req, res) => {
 	console.log(req.body);
-	console.log("insert into todoData(t_name, t_due_date, t_done, t_memo) values ('"
-	+ req.body.t_name 
-	+"', '"+req.body.t_due_date
-	+"', "+req.body.t_done
-	+", '"+req.body.t_memo +"')")
 	db.query("insert into todoData(t_name, t_due_date, t_done, t_memo) values ('"
 	+ req.body.t_name 
 	+"', '"+req.body.t_due_date

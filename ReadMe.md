@@ -88,8 +88,59 @@
 	```
 
 4. Todo List 등록 요청
+
+	```
+	백엔드 서버: http://localhost:3001/NewToDo
+
+	method: put
+
+	headers:
+		"content-type": "application/json",
+
+	body: JSON.stringify({
+		t_name: tName,
+		t_due_date: tDueDate,
+		t_done: tDone,
+		t_memo: tMemo,
+		cat: tCategory // 카테고리에 대한 처리는 아직 미정. (협의 필요)
+	}),
+	```
+
 5. Todo List 수정 요청 (완료 <=> 미완 표시 등 포함)
+
+	```
+	백엔드 서버: http://localhost:3001/ToDoEdit
+
+	method: put
+
+	headers:
+		"content-type": "application/json",
+
+	body: JSON.stringify({
+		tid: todoData.tid,
+		t_name: tName,
+		t_created_date: todoData.t_created_date,
+		t_due_date: tDueDate,
+		t_done: tDone,
+		t_memo: tMemo
+	}),
+	```
+
+
 6. Todo List 삭제 요청
+
+	```
+	백엔드 서버: http://localhost:3001/ToDoEdit
+
+	method: delete
+
+	headers:
+		"content-type": "application/json",
+
+	body: JSON.stringify({
+		tid: todoData.tid,
+	}),
+	```
 
 
 ### 데이터 형식
