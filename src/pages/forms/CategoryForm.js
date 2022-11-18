@@ -1,40 +1,39 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-function CategoryFormElement({ category, uid, params }) {
+function CategoryFormElement({ category, userID, params }) {
 	return (
 		<div
 			style={{
 				cursor: "pointer",
 				//color: movie.active ? 'green' : 'black'
 			}}
-			className="categories"
+			className="singleCategory"
 		>
-			<Link to={"/category/" +uid+"/"+ category.category + params}>
-				<b>{category.category}</b>
+			<Link to={"/category/" +userID+"/"+ category.categoryName + params}>
+				<b>{category.categoryName}</b>
 			</Link>
 			&nbsp;
 		</div>
 	);
 }
 
-function CategoryForm({ tid, uid, params, del }) {
+function CategoryForm({ recordID, userID, params, del }) {
 	const [loading, setLoading] = useState(true);
 	const [categories, setCategories] = useState([]);
-	const [catName, setCatName] = useState("");
-	const onClickDelCat = (catName, e)=>{
-		fetch("http://localhost:3001/category", {
+	const onClickDelCat = (categoryN, e)=>{
+		fetch("http://localhost:3001/category/remove", {
 				method: "delete", //통신방법
 				headers: {
 					"content-type": "application/json",
 				},
 				body: JSON.stringify({
-					tid: tid,
-					category: catName
+					recordID: recordID,
+					categoryName: categoryN
 				}),
 		});
-		console.log(catName);
+		console.log(categoryN);
 		setCategories(categories.filter((data) => {
-            return data.category !== catName
+            return data.categoryName !== categoryN
         }))
 	}
 	useEffect(() => {
@@ -45,17 +44,17 @@ function CategoryForm({ tid, uid, params, del }) {
 				"content-type": "application/json",
 			},
 			body: JSON.stringify({
-				uid: uid,
-				tid: tid
+				userID: userID,
+				recordID: recordID
 			}),
 		})
 			.then((res) => res.json())
 			.then((json) => {
-				json.map((category) =>
+				json.map((categoryIn) =>
 					setCategories((prevState) => [
 						...prevState,
 						{
-							category: category.category,
+							categoryName: categoryIn.categoryName,
 						},
 					])
 				);
@@ -67,11 +66,11 @@ function CategoryForm({ tid, uid, params, del }) {
 		<div>
 			{del?
 			categories.map((category) => (
-				<CategoryFormElement category={category} uid={uid} params={params}/>
+				<CategoryFormElement category={category} userID={userID} params={params}/>
 			)) : 
 			categories.map((category)=>(
 					<div>
-						{category.category}<button onClick={(e)=>onClickDelCat(category.category, e)}>삭제</button>
+						{category.categoryName}<button onClick={(e)=>onClickDelCat(category.categoryName, e)}>삭제</button>
 					</div>
 				))
 			}

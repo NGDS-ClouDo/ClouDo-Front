@@ -1,7 +1,7 @@
 import { Link,  useNavigate, useParams } from "react-router-dom";
 import "./NavigationBar.css";
 
-function NavigationBar({uid}) {
+function NavigationBar({userID}) {
 	return (
 		<div className="navigationBar">
 			<div>
@@ -10,12 +10,12 @@ function NavigationBar({uid}) {
 				</Link>
 			</div>
 			<div>
-				<Link to={"/TODOListPage/"+uid+"/all/ /t_created_date/asc/1/"} className="nav_TDLBtn">
+				<Link to={"/TODOListPage/"+userID+"/all/ /recordCreatedDate/asc/1/"} className="nav_TDLBtn">
 					TODO List
 				</Link>
 			</div>
 			<div>
-				<Link to={"/category/"+uid+"/ /all/ /t_created_date/asc/1/"} className="nav_TDLBtn">
+				<Link to={"/category/"+userID+"/ /all/ /recordCreatedDate/asc/1/"} className="nav_TDLBtn">
 					Search by Category
 				</Link>
 			</div>

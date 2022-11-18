@@ -1,6 +1,6 @@
 import { Route, Routes } from "react-router-dom";
 import Home from "./pages/Home";
-import Category from "./pages/Category";
+import CategoryPage from "./pages/CategoryPage";
 import TODOListPage from "./pages/TODOListPage";
 import EmptyPage from "./pages/EmptyPage";
 
@@ -9,15 +9,15 @@ const App = () => {
 		<Routes>
 			<Route path="/" element={<Home />} />
 			<Route path="/home/" element={<Home />} />
-			{/* <Route path="/home/:uid/" element={<Home />} /> */}
+			{/* <Route path="/home/:userID/" element={<Home />} /> */}
 			<Route path="/EmptyPage/" element={<EmptyPage />} />
 			<Route
-				path="/TODOListPage/:uid/:range/:search/:order/:desc/:page/"
+				path="/TODOListPage/:userID/:doneOrNot/:search/:orderBy/:desc/:page/"
 				element={<TODOListPage />}
 			/>
 			<Route
-				path="/category/:uid/:category/:range/:search/:order/:desc/:page/"
-				element={<Category/>}
+				path="/category/:userID/:categoryName/:doneOrNot/:search/:orderBy/:desc/:page/"
+				element={<CategoryPage/>}
 			/>
 		</Routes>
 	);

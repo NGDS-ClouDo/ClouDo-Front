@@ -61,8 +61,8 @@
 		"content-type": "application/json",
 
 	body: JSON.stringify({ // json 형식
-		tid: tid // 해당 tid에 링크된 모든 카테고리 값들을 가져올 것을 요청
-		// 중요 특이사항: tid: 0일 경우 모든 category (distinct) 값을 가져와야함
+		recordID: recordID // 해당 recordID에 링크된 모든 카테고리 값들을 가져올 것을 요청
+		// 중요 특이사항: recordID: 0일 경우 모든 category (distinct) 값을 가져와야함
 	}),
 	```
 	// params.XX 는 문자열 데이터
@@ -98,10 +98,10 @@
 		"content-type": "application/json",
 
 	body: JSON.stringify({
-		t_name: tName,
-		t_due_date: tDueDate,
-		t_done: tDone,
-		t_memo: tMemo,
+		recordName: tName,
+		recordDueDate: tDueDate,
+		recordDone: tDone,
+		recordMemo: tMemo,
 		cat: tCategory // 카테고리에 대한 처리는 아직 미정. (협의 필요)
 	}),
 	```
@@ -117,12 +117,12 @@
 		"content-type": "application/json",
 
 	body: JSON.stringify({
-		tid: todoData.tid,
-		t_name: tName,
-		t_created_date: todoData.t_created_date,
-		t_due_date: tDueDate,
-		t_done: tDone,
-		t_memo: tMemo
+		recordID: Record.recordID,
+		recordName: tName,
+		recordCreatedDate: Record.recordCreatedDate,
+		recordDueDate: tDueDate,
+		recordDone: tDone,
+		recordMemo: tMemo
 	}),
 	```
 
@@ -138,28 +138,28 @@
 		"content-type": "application/json",
 
 	body: JSON.stringify({
-		tid: todoData.tid,
+		recordID: Record.recordID,
 	}),
 	```
-
+7. 
 
 ### 데이터 형식
 
 ```
-create table todoData(
-   	tid int primary key, // 작업 pk
-    t_name varchar(200), // 작업 이름
-    t_created_date datetime default now(), // 생성일
-    t_due_date datetime, // 완료 기일
-    t_memo varchar(10000), // 내용
-    t_done boolean // 완료 여부
+create table Record(
+   	recordID int primary key, // 작업 pk
+    recordName varchar(200), // 작업 이름
+    recordCreatedDate datetime default now(), // 생성일
+    recordDueDate datetime, // 완료 기일
+    recordMemo varchar(10000), // 내용
+    recordDone boolean // 완료 여부
 );
 
-create table todoCategory(
-	tid int,
+create table Category(
+	recordID int,
     category varchar(200),
     
-    foreign key (tid) references todoData(tid),
-    primary key (tid, category)
+    foreign key (recordID) references Record(recordID),
+    primary key (recordID, category)
 );
 ```

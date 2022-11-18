@@ -4,131 +4,130 @@ import { Link, useNavigate } from "react-router-dom";
 import CategoryForm from "./forms/CategoryForm";
 import "./css/TODOList.css";
 
-const TODOListElement = ({ todoData, paramString }) => {
+const TODOListElement = ({ record, paramString }) => {
 	const [tEdit, setTEdit] = useState(false);
-	const [tName, setTName] = useState(todoData.t_name);
+	const [recordNameInput, setRecordNameInput] = useState(record.recordName);
 	const navigate = useNavigate();
-	const onChangeTName = (e) => setTName(e.target.value);
-	const [tDueDate, setTDueDate] = useState(todoData.t_due_date);
-	const [tCategory, setTCategory] = useState("");
-	const onChangeTCategory = (e) => setTCategory(e.target.value);
-	const onClickTCategory = () => {
-		tCategory !=="" ?
-		fetch("http://localhost:3001/NewCategory", {
-		method: "put", //통신방법
+	const onChangeTName = (e) => setRecordNameInput(e.target.value);
+	const [recordDueDateInput, setRecordDueDateInput] = useState(record.recordDueDate);
+	const [categoryNameInput, setCategoryNameInput] = useState("");
+	const onChangeCategoryNameInput = (e) => setCategoryNameInput(e.target.value);
+	const onClickCategoryNameInputConfirm = () => {
+		categoryNameInput !=="" ?
+		fetch("http://localhost:3001/category/add/", {
+		method: "post", //통신방법
 		headers: {
 			"content-type": "application/json",
 		},
 		body: JSON.stringify({
-			tid: todoData.tid,
-			uid: todoData.uid,
-			category: tCategory
+			recordID: record.recordID,
+			userID: record.userID,
+			categoryName: categoryNameInput
 		}),}) 
-		: setTCategory("");
-	setTCatEdit(false)};
+		: setCategoryNameInput("");
+	setCategoryEdit(false)};
 	const onChangeTDueDateD = (e) => {
-		setTDueDate(e.target.value+" "+
-		moment(tDueDate).format(
+		setRecordDueDateInput(e.target.value+" "+
+		moment(recordDueDateInput).format(
 			"HH:mm:00"
 		));};
 	const onChangeTDueDateT = (e) => {
-		setTDueDate(moment(tDueDate).format(
+		setRecordDueDateInput(moment(recordDueDateInput).format(
 			"YYYY-MM-DD"
 		)+" "+e.target.value);};
-	const [tDone, setTDone] = useState(todoData.t_done);
-	const [tMemo, setTMemo] = useState(todoData.t_memo);
-	const [tCatEdit, setTCatEdit] = useState(false);
-	const onChangeTMemo = (e) => setTMemo(e.target.value);
-	const onClickCatEdit = () => setTCatEdit(!tCatEdit);
+	const [recordDoneInput, setRecordDoneInput] = useState(record.recordDone);
+	const [recordMemoInput, setRecordMemoInput] = useState(record.recordMemo);
+	const [categoryEdit, setCategoryEdit] = useState(false);
+	const onChangeRecordMemoInput = (e) => setRecordMemoInput(e.target.value);
+	const onClickCatEdit = () => setCategoryEdit(!categoryEdit);
 
 
-	const onClickConfirm = () => {
-		fetch("http://localhost:3001/ToDoEdit", {
-			method: "put", //통신방법
+	const onClickEditConfirm = () => {
+		fetch("http://localhost:3001/record/edit/", {
+			method: "post", //통신방법
 			headers: {
 				"content-type": "application/json",
 			},
 			body: JSON.stringify({
-				tid: todoData.tid,
-				uid: todoData.uid,
-				t_name: tName,
-				t_created_date: todoData.t_created_date,
-				t_due_date: tDueDate,
-				t_done: tDone,
-				t_memo: tMemo
+				recordID: record.recordID,
+				userID: record.userID,
+				recordName: recordNameInput,
+				recordDueDate: recordDueDateInput,
+				recordDone: recordDoneInput,
+				recordMemo: recordMemoInput
 			}),
 		});
 		navigate(
-			"/TODOListPage/"+todoData.uid+paramString
+			"/TODOListPage/"+record.userID+paramString
 		);
 	};
-	const onClickDelete = () => {
-		fetch("http://localhost:3001/ToDoEdit", {
+	const onClickRemoveRecord = () => {
+		fetch("http://localhost:3001/record/remove/", {
 			method: "delete", //통신방법
 			headers: {
 				"content-type": "application/json",
 			},
 			body: JSON.stringify({
-				uid: todoData.uid,
-				tid: todoData.tid,
+				recordID: record.recordID,
+				userID: record.userID,
 			}),
 		});
 		navigate(
-			"/TODOListPage/"+todoData.uid+paramString
+			"/TODOListPage/"+record.userID+paramString
 		);
 	};
 	const onClickBack = () => {
 		navigate(
-			"/TODOListPage/"+todoData.uid+paramString
+			"/TODOListPage/"+record.userID+paramString
 		);
 	};
 	const onClickEdit = () => {
 		setTEdit(!tEdit)
 	};
 	const onClickDone = () => {
-		tDone ==="1" ? setTDone("0"):setTDone("1")
+		recordDoneInput ==="1" ? setRecordDoneInput("0"):setRecordDoneInput("1")
 	};
 	return (
 		<div className="todoElement">
 			<div className="todoInfo">
 				<div className="todoBasicInfo">
-					{/* <Link to={"/profiles/" + todoData.tid} className="todoDataTitle">
-						{todoData.t_name}
+					{/* <Link to={"/profiles/" + record.recordID} className="recordTitle">
+						{record.recordName}
 					</Link> */}
 					<div>
 						제목 {"\t"}: {"\t"} 
 						{tEdit ?  
 							<input
 								type="text"
-								name="tName"
-								placeholder={tName}
-								value={tName}
+								name="recordNameInput"
+								placeholder={recordNameInput}
+								value={recordNameInput}
 								onChange={onChangeTName}
 							/> :
-							todoData.t_name}
+							record.recordName}
 					</div>
 					
 					<br></br>
 					<div>
 						카테고리 {"\t"}: {"\t"}
 						{
-							tCatEdit? 
+							categoryEdit? 
 							<div>
 								<input
 									type="text"
-									name="tCategory"
+									name="categoryNameInput"
 									placeholder={"추가할 카테고리 입력"}
-									onChange={onChangeTCategory}
+									onChange={onChangeCategoryNameInput}
 								/>
 								<button
-									onClick={onClickTCategory}>추가</button>
+									onClick={onClickCategoryNameInputConfirm}>추가</button>
 
 								<div>
-									<CategoryForm tid={todoData.tid} uid = {todoData.uid} params={paramString} del={false}  ></CategoryForm>
+									<CategoryForm recordID={record.recordID} userID = {record.userID} params={paramString} del={false}  ></CategoryForm>
 								</div>:
 							</div>:
 							<div>
-								<CategoryForm tid={todoData.tid} uid = {todoData.uid} params={paramString} del={true} ></CategoryForm>
+								<CategoryForm recordID={record.recordID} userID = {record.userID} params={paramString} del={true} ></CategoryForm>
 								<button
 									onClick={onClickCatEdit}>
 										카테고리 수정
@@ -141,7 +140,7 @@ const TODOListElement = ({ todoData, paramString }) => {
 					<br></br>
 					<div>
 						작성일 {"\t"}: {"\t"}
-						{moment(todoData.t_created_date).format(
+						{moment(record.recordCreatedDate).format(
 							"YYYY년 MM월 DD일 HH시 mm분"
 						)}
 					</div>
@@ -152,23 +151,23 @@ const TODOListElement = ({ todoData, paramString }) => {
 						<div>
 							<input
 								type="date"
-								name="tName"
-								value={moment(tDueDate).format(
+								name="recordNameInput"
+								value={moment(recordDueDateInput).format(
 									"YYYY-MM-DD"
 								)}
 								onChange={onChangeTDueDateD}
 							/>
 							<input
 								type="time"
-								name="tName"
-								value={moment(tDueDate).format(
+								name="recordNameInput"
+								value={moment(recordDueDateInput).format(
 									"HH:mm:00"
 								)}
 								onChange={onChangeTDueDateT}
 							/> 
-							{tDueDate}
+							{recordDueDateInput}
 						</div>:
-							moment(todoData.t_due_date).format(
+							moment(record.recordDueDate).format(
 								"YYYY년 MM월 DD일 HH시 mm분"
 							)}
 					</div>
@@ -178,15 +177,15 @@ const TODOListElement = ({ todoData, paramString }) => {
 						{tEdit ? 
 				<button
 					className={
-						tDone === "1"
+						recordDoneInput === "1"
 							? "selectedOrderBtn"
 							: "unselectedOrderBtn"
 					}
 					onClick = {onClickDone}
 				>
-					{(tDone === "1" ? "완료" : "미완")}
+					{(recordDoneInput === "1" ? "완료" : "미완")}
 				</button>:
-							todoData.t_done }
+							record.recordDone }
 					</div>
 					<br></br>
 					<div className="memo">
@@ -194,19 +193,19 @@ const TODOListElement = ({ todoData, paramString }) => {
 						{tEdit ? 
 							<input
 								type="text"
-								name="tMemo"
-								placeholder={tMemo}
-								value={tMemo}
-								onChange={onChangeTMemo}
+								name="recordMemoInput"
+								placeholder={recordMemoInput}
+								value={recordMemoInput}
+								onChange={onChangeRecordMemoInput}
 							/>:
-							todoData.t_memo }
+							record.recordMemo }
 					</div>
 				</div>
 			</div>{ tEdit ? <div>
 				<br></br>
-				<button onClick={onClickConfirm}>확인</button>
+				<button onClick={onClickEditConfirm}>확인</button>
 				<br></br>
-				<button onClick={onClickDelete}>삭제</button>
+				<button onClick={onClickRemoveRecord}>삭제</button>
 				<br></br>
 				<button onClick={onClickBack}>취소</button>
 				<br></br> </div>: 
@@ -215,11 +214,11 @@ const TODOListElement = ({ todoData, paramString }) => {
 	);
 }
 
-function TODOList({ todoDataList, params }) {
+function TODOList({ recordList, params }) {
 	return (
 		<div>
-			{todoDataList.map((todoData) => (
-				<TODOListElement todoData={todoData} paramString={params} />
+			{recordList.map((record) => (
+				<TODOListElement record={record} paramString={params} />
 			))}
 		</div>
 	);

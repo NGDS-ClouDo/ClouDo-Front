@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-function AllCatFormElement({ category, uid,params }) {
+function AllCatFormElement({ category, userID,params }) {
 	return (
 		<div
 			style={{
@@ -9,27 +9,26 @@ function AllCatFormElement({ category, uid,params }) {
 			}}
 			className="categories"
 		>
-			<Link to={"/category/"  +uid+"/"+ category.category + params}>
-				<b>{category.category}</b>
+			<Link to={"/category/"  +userID+"/"+ category.categoryName + params}>
+				<b>{category.categoryName}</b>
 			</Link>
 			&nbsp;
 		</div>
 	);
 }
 
-function AllCatForm({ params, uid }) {
+function AllCatForm({ params, userID }) {
 	const [loading, setLoading] = useState(true);
 	const [categories, setCategories] = useState([]);
 	useEffect(() => {
 		setCategories([]);
-		fetch("http://localhost:3001/category", {
+		fetch("http://localhost:3001/category/all/", {
 			method: "post", //통신방법
 			headers: {
 				"content-type": "application/json",
 			},
 			body: JSON.stringify({
-				uid: uid,
-				tid: 0
+				userID: userID,
 			}),
 		})
 			.then((res) => res.json())
@@ -38,7 +37,7 @@ function AllCatForm({ params, uid }) {
 					setCategories((prevState) => [
 						...prevState,
 						{
-							category: category.category,
+							categoryName: category.categoryName,
 						},
 					])
 				);
@@ -49,7 +48,7 @@ function AllCatForm({ params, uid }) {
 	return (
 		<div>
 			{categories.map((category) => (
-				<AllCatFormElement category={category} uid={uid} params={params}/>
+				<AllCatFormElement category={category} userID={userID} params={params}/>
 			))}
 		</div>
 	);

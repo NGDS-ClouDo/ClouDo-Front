@@ -1,7 +1,7 @@
 import { Link,  useNavigate, useParams } from "react-router-dom";
 import "./NavigationBar.css";
 
-function NavigationBarHome({uid}) {
+function NavigationBarHome({userID}) {
 	return (
 		<div className="navigationBar">
 			<div>

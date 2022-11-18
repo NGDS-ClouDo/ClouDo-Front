@@ -8,8 +8,8 @@ function AllUserFormElement({ user }) {
 			}}
 			className="users"
 		>
-			<Link to={"/TODOListPage/"+user.uid+"/all/ /t_created_date/asc/1/"}>
-				<b>{user.u_name}</b>
+			<Link to={"/TODOListPage/"+user.userID+"/all/ /recordCreatedDate/asc/1/"}>
+				<b>{user.userName}</b>
 			</Link>
 			&nbsp;
 		</div>
@@ -21,23 +21,22 @@ function AllUserForm() {
 	const [users, setUsers] = useState([]);
 	useEffect(() => {
 		setUsers([]);
-		fetch("http://localhost:3001/user", {
+		fetch("http://localhost:3001/user/all", {
 			method: "post", //통신방법
 			headers: {
 				"content-type": "application/json",
 			},
 			body: JSON.stringify({
-				tid: 0
 			}),
 		})
 			.then((res) => res.json())
 			.then((json) => {
-				json.map((user) =>
+				json.map((userIn) =>
 					setUsers((prevState) => [
 						...prevState,
 						{
-							uid: user.uid,
-							u_name: user.u_name,
+							userID: userIn.userID,
+							userName: userIn.userName,
 						},
 					])
 				);

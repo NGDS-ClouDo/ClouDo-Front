@@ -15,13 +15,13 @@ const Home = () => {
 		const onChangeUName = (e) => setUName(e.target.value);
 		const navigate = useNavigate();
 		const onClickConfirm = () => {
-			fetch("http://localhost:3001/NewUser", {
-				method: "put", //통신방법
+			fetch("http://localhost:3001/user/add/", {
+				method: "post", //통신방법
 				headers: {
 					"content-type": "application/json",
 				},
 				body: JSON.stringify({
-					u_name:uName
+					userName:uName
 				}),
 			});
 			window.location.reload()
@@ -46,20 +46,20 @@ const Home = () => {
 	}
 	return (
 		<div className="home">
-			<NavigationBarHome uid ={params.uid === undefined | params.uid === "" ? "0" : params.uid} />
+			<NavigationBarHome userID ={params.userID === undefined | params.userID === "" ? "0" : params.userID} />
 			<h1>차세대분산시스템 Term Project</h1>
 			<h1>10조</h1>
 			<p>
-				<b>강성범: </b>.<br></br>
-				<b>김주혜: </b>.<br></br>
-				<b>이찬하: </b>프론트<br></br>
+				<b>강성범: </b>백엔드, DB 설계, 요청 API 설계<br></br>
+				<b>김주혜: </b>쿠버네티스 연구, githubAction 연구<br></br>
+				<b>이찬하: </b>프론트, DB 설계, 요청 API 설계<br></br>
 			</p>
 			<p>
 				<b>백엔드: </b> Spring<br></br>
-				<b>프론트엔드: </b> React<br></br>
+				<b>프론트엔드: </b> React, Nodejs<br></br>
 			</p>
 			<h3>User List User 추가</h3>
-			{params.uid === undefined | params.uid === "" ? "0" : params.uid}
+			{params.userID === undefined | params.userID === "" ? "0" : params.userID}
 			{AddUser ? <div><TODOAdd AddUser={AddUser}></TODOAdd><button onClick={onClickAddUserBtn}>취소</button></div>:<button onClick={onClickAddUserBtn}>추가</button>}
 			<br></br>
 			<AllUserForm />
