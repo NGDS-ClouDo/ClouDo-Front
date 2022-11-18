@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-function CategoryFormElement({ category, params }) {
+function CategoryFormElement({ category, uid, params }) {
 	return (
 		<div
 			style={{
@@ -9,7 +9,7 @@ function CategoryFormElement({ category, params }) {
 			}}
 			className="categories"
 		>
-			<Link to={"/category/" + category.category + params}>
+			<Link to={"/category/" +uid+"/"+ category.category + params}>
 				<b>{category.category}</b>
 			</Link>
 			&nbsp;
@@ -17,7 +17,7 @@ function CategoryFormElement({ category, params }) {
 	);
 }
 
-function CategoryForm({ tid, params }) {
+function CategoryForm({ tid, uid, params }) {
 	const [loading, setLoading] = useState(true);
 	const [categories, setCategories] = useState([]);
 	useEffect(() => {
@@ -28,6 +28,7 @@ function CategoryForm({ tid, params }) {
 				"content-type": "application/json",
 			},
 			body: JSON.stringify({
+				uid: uid,
 				tid: tid
 			}),
 		})
@@ -48,7 +49,7 @@ function CategoryForm({ tid, params }) {
 	return (
 		<div>
 			{categories.map((category) => (
-				<CategoryFormElement category={category} params={params}/>
+				<CategoryFormElement category={category} uid={uid} params={params}/>
 			))}
 		</div>
 	);

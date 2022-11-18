@@ -21,7 +21,7 @@ app.listen(port, () => {
 
 app.post("/data", (req, res) => {
 	console.log(req.body);
-	db.query("SELECT * FROM todoData", async function (err, rows, fields) {
+	db.query("SELECT * FROM todoData WHERE uid = '" + req.body.uid +"'", async function (err, rows, fields) {
 		if (err) {
 			console.log("데이터 가져오기 실패");
 		} else {
@@ -55,13 +55,12 @@ app.post("/TodoEdit", (req, res) => {
 	});
 });
 
+app.put("/test", (req, res) => {
+	console.log(req.body);
+});
+
 app.put("/TodoEdit", (req, res) => {
 	console.log(req.body);
-	console.log("UPDATE todoData SET t_name = '"+ req.body.t_name 
-	+"', t_due_date = '"+req.body.t_due_date
-	+"', t_memo = '"+req.body.t_memo
-	+"', t_done = '"+req.body.t_done
-	+"' WHERE tid = " + req.body.tid)
 	db.query("UPDATE todoData SET t_name = '"+ req.body.t_name 
 	+"', t_due_date = '"+req.body.t_due_date
 	+"', t_memo = '"+req.body.t_memo
@@ -78,7 +77,8 @@ app.put("/TodoEdit", (req, res) => {
 
 app.put("/NewTodo", (req, res) => {
 	console.log(req.body);
-	db.query("insert into todoData(t_name, t_due_date, t_done, t_memo) values ('"
+	db.query("insert into todoData(uid, t_name, t_due_date, t_done, t_memo) values ("
+	+req.body.uid +", '"
 	+ req.body.t_name 
 	+"', '"+req.body.t_due_date
 	+"', "+req.body.t_done
@@ -88,6 +88,31 @@ app.put("/NewTodo", (req, res) => {
 			console.log("데이터 가져오기 실패");
 		} else {
 			console.log(rows);
+		}
+	});
+});
+
+app.put("/NewUser", (req, res) => {
+	console.log(req.body);
+	db.query("insert into todoUser(u_name) values ('"
+	+ req.body.u_name +"')"
+	 , async function (err, rows, fields) {
+		if (err) {
+			console.log("데이터 가져오기 실패");
+		} else {
+			console.log(rows);
+		}
+	});
+
+});
+app.post("/user", (req, res) => {
+	console.log(req.body);
+	db.query("SELECT * FROM todoUser" , async function (err, rows, fields) {
+		if (err) {
+			console.log("데이터 가져오기 실패");
+		} else {
+			console.log(rows);
+			await res.send(rows);
 		}
 	});
 });
@@ -106,7 +131,7 @@ app.post("/category", (req, res) => {
 		});
 	}
 	else{
-		db.query("SELECT distinct category FROM todoCategory" , async function (err, rows, fields) {
+		db.query("SELECT distinct category FROM todoCategory WHERE uid = '" + req.body.uid +"'" , async function (err, rows, fields) {
 			if (err) {
 				console.log("데이터 가져오기 실패");
 			} else {

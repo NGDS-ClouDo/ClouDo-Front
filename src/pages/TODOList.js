@@ -2,7 +2,7 @@ import moment from "moment";
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import CategoryForm from "./forms/CategoryForm";
-import "./TODOList.css";
+import "./css/TODOList.css";
 
 const TODOListElement = ({ todoData, paramString }) => {
 	const [tEdit, setTEdit] = useState(false);
@@ -10,6 +10,10 @@ const TODOListElement = ({ todoData, paramString }) => {
 	const navigate = useNavigate();
 	const onChangeTName = (e) => setTName(e.target.value);
 	const [tDueDate, setTDueDate] = useState(todoData.t_due_date);
+	const [tCategories, setTCategories] = useState([]);
+	const [tCategory, setTCategory] = useState("");
+	const onChangeTCategory = (e) => setTCategory(e.target.value);
+	const onClickTCategory = () => {tCategory.split('#').map((str)=>setTCategories((prev)=>[...prev, str.trim(),]))};
 	const onChangeTDueDateD = (e) => {
 		setTDueDate(e.target.value+" "+
 		moment(tDueDate).format(
@@ -30,6 +34,7 @@ const TODOListElement = ({ todoData, paramString }) => {
 			},
 			body: JSON.stringify({
 				tid: todoData.tid,
+				uid: todoData.uid,
 				t_name: tName,
 				t_created_date: todoData.t_created_date,
 				t_due_date: tDueDate,
@@ -38,7 +43,7 @@ const TODOListElement = ({ todoData, paramString }) => {
 			}),
 		});
 		navigate(
-			"/TODOListPage"+paramString
+			"/TODOListPage/"+todoData.uid+paramString
 		);
 	};
 	const onClickDelete = () => {
@@ -48,16 +53,17 @@ const TODOListElement = ({ todoData, paramString }) => {
 				"content-type": "application/json",
 			},
 			body: JSON.stringify({
+				uid: todoData.uid,
 				tid: todoData.tid,
 			}),
 		});
 		navigate(
-			"/TODOListPage"+paramString
+			"/TODOListPage/"+todoData.uid+paramString
 		);
 	};
 	const onClickBack = () => {
 		navigate(
-			"/TODOListPage"+paramString
+			"/TODOListPage/"+todoData.uid+paramString
 		);
 	};
 	const onClickEdit = () => {
@@ -89,7 +95,19 @@ const TODOListElement = ({ todoData, paramString }) => {
 					<br></br>
 					<div>
 						카테고리 {"\t"}: {"\t"}
-						<CategoryForm tid={todoData.tid} params={paramString}></CategoryForm>
+						{tEdit ?
+							<div>
+								<input
+									type="text"
+									name="tCategory"
+									placeholder={"#로 구분"}
+									onChange={onChangeTCategory}
+								/>
+								<button
+									onClick={onClickTCategory}>추가</button>
+							</div>:
+							<CategoryForm tid={todoData.tid} uid = {todoData.uid} params={paramString}></CategoryForm>
+						}
 					</div>
 					<br></br>
 					<br></br>

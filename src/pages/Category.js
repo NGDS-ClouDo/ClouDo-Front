@@ -3,7 +3,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import NavigationBar from "./fragments/NavigationBar";
 import TODOList from "./TODOList";
 import AllCatForm from "./forms/AllCatForm";
-import "./Category.css";
+import "./css/Category.css";
 
 const Category = () => {
 	const params = useParams();
@@ -16,7 +16,7 @@ const Category = () => {
 	const onChangeSearchInput = (e) => setSearchInput(e.target.value);
 	const onClickSearch = () => {
 		navigate(
-			"/category/" +
+			"/category/" +params.uid+"/"+
 				params.category +
 				"/" +
 				params.range +
@@ -43,6 +43,7 @@ const Category = () => {
 				"content-type": "application/json",
 			},
 			body: JSON.stringify({
+				uid: params.uid,
 				category: params.category,
 				range: params.range,
 				search_string: params.search,
@@ -57,6 +58,7 @@ const Category = () => {
 				setTodoDataList((prevState) => [
 						...prevState,
 						{
+							uid: todoD.uid,
 							tid: todoD.tid,
 							t_name: todoD.t_name,
 							t_created_date: todoD.t_created_date,
@@ -72,7 +74,7 @@ const Category = () => {
 	if (loading) return <div>Loading...</div>;
 	return (
 		<div>
-			<NavigationBar />
+			<NavigationBar uid={params.uid}/>
 			<h1>TODO Lists</h1>
 			<h2>category: {(params.category)}</h2>
 			<br></br>
@@ -109,7 +111,7 @@ const Category = () => {
 			<h4>order</h4>
 			<Link
 				to={
-					"/category/"+
+					"/category/"+params.uid+"/"+
 					params.category+
 					"/"+
 					params.range+
@@ -138,7 +140,7 @@ const Category = () => {
 			</Link>
 			<Link
 				to={
-					"/category/"+
+					"/category/"+params.uid+"/"+
 					params.category+
 					"/"+
 					+params.range+"/" +
@@ -166,7 +168,7 @@ const Category = () => {
 			</Link>
 			<Link
 				to={
-					"/category/"+
+					"/category/"+params.uid+"/"+
 					params.category+
 					"/"+
 					params.range+"/" +
@@ -194,7 +196,7 @@ const Category = () => {
 			</Link>
 			<Link
 				to={
-					"/category/"+
+					"/category/"+params.uid+"/"+
 					params.category+
 					"/"+
 					params.range+"/" +
@@ -224,7 +226,7 @@ const Category = () => {
 			<div>
 				<Link
 					to={
-						"/category/"+
+						"/category/"+params.uid+"/"+
 						params.category+
 						"/"+
 						(params.range === "all"
@@ -260,7 +262,7 @@ const Category = () => {
 				</Link>
 				<Link
 					to={
-						"/category/"+
+						"/category/"+params.uid+"/"+
 						params.category+
 						"/"+
 						(params.range === "all"
@@ -297,7 +299,7 @@ const Category = () => {
 			</div>
 			<h4>All Categories</h4>
 			<div>
-				<AllCatForm params={paramString}/>
+				<AllCatForm params={paramString} uid={params.uid}/>
 			</div>
 			<h4>search</h4>
 			<div>
@@ -317,7 +319,7 @@ const Category = () => {
 			{page >= 2 ? (
 				<Link
 					to={
-						"/category/"+
+						"/category/"+params.uid+"/"+
 						params.category+
 						"/"+params.range+"/" +
 						params.search +
@@ -337,7 +339,7 @@ const Category = () => {
 			{todoDataList.length >= 10 ? (
 				<Link
 					to={
-						"/category/"+
+						"/category/"+params.uid+"/"+
 						params.category+
 						"/"+params.range+"/" +
 						params.search +

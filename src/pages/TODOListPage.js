@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Link,  useNavigate, useParams } from "react-router-dom";
 import NavigationBar from "./fragments/NavigationBar";
 import TODOList from "./TODOList";
-import "./TODOListPage.css";import "./TODOList.css";
+import "./css/TODOListPage.css";import "./css/TODOList.css";
 import moment from "moment";
 
 
@@ -24,7 +24,9 @@ const TODOListPage = () => {
 		const onChangeTName = (e) => setTName(e.target.value);
 		const navigate = useNavigate();
 		const [tCategory, setTCategory] = useState("");
+		const [tCategories, setTCategories] = useState([]);
 		const onChangeTCategory = (e) => setTCategory(e.target.value);
+		const onClickTCategory = () => {tCategory.split('#').map((str)=>setTCategories((prev)=>[...prev, str.trim(),]))};
 		const [tDueDate, setTDueDate] = useState("2022-12-05 00:00:00");
 		const onChangeTDueDateD = (e) => {
 			setTDueDate(e.target.value+" "+
@@ -45,15 +47,30 @@ const TODOListPage = () => {
 					"content-type": "application/json",
 				},
 				body: JSON.stringify({
+					uid: params.uid,
 					t_name: tName,
 					t_due_date: tDueDate,
 					t_done: tDone,
 					t_memo: tMemo,
-					cat: tCategory
+					cat: tCategories
 				}),
 			});
+			// fetch("http://localhost:3001/test", {
+			// 	method: "put", //통신방법
+			// 	headers: {
+			// 		"content-type": "application/json",
+			// 	},
+			// 	body: JSON.stringify({
+			// 		uid: params.uid,
+			// 		t_name: tName,
+			// 		t_due_date: tDueDate,
+			// 		t_done: tDone,
+			// 		t_memo: tMemo,
+			// 		cat: tCategories
+			// 	}),
+			// });
 			navigate(
-				"/TODOListPage"+paramString
+				"/TODOListPage/"+params.uid+paramString
 			);
 			setAddToDo(!AddToDo);
 		};
@@ -83,9 +100,12 @@ const TODOListPage = () => {
 								<input
 									type="text"
 									name="tCategory"
-									placeholder={"선택"}
+									placeholder={"#로 구분"}
 									onChange={onChangeTCategory}
 								/>
+								<button
+									onClick={onClickTCategory}>추가</button>
+								{tCategories.length}
 						</div>
 						<br></br>
 						<br></br>
@@ -146,13 +166,13 @@ const TODOListPage = () => {
 	}
 	const onClickSearch = () => {
 		navigate(
-			"/TODOListPage/"+params.range+"/" +
+			"/TODOListPage/"+params.uid+"/"+params.range+"/" +
 				(searchInput === "" ? " " : searchInput) +
 				"/" +
 				params.order +
 				"/" +
 				params.desc +
-				"/1"
+				"/1/"
 		);
 	};
 	const onKeyPress = (e) => {
@@ -162,13 +182,14 @@ const TODOListPage = () => {
 	};
 	useEffect(() => {
 		setTodoDataList([]);
-		setParamString(()=>"/"+(params.range ===" "? "all": params.range)+"/ /"+(params.order ===" "? "t_created_date": params.order)+"/"+(params.desc ===" "? "asc": params.desc)+"/1");
+		setParamString(()=>"/"+(params.range ===" "? "all": params.range)+"/ /"+(params.order ===" "? "t_created_date": params.order)+"/"+(params.desc ===" "? "asc": params.desc)+"/1/");
 		fetch("http://localhost:3001/data", {
 			method: "post", //통신방법
 			headers: {
 				"content-type": "application/json",
 			},
 			body: JSON.stringify({
+				uid: params.uid,
 				range: params.range,
 				search_string: params.search,
 				order_by: params.order, // 정렬 기준(날짜, 제목, 마감일? 등)
@@ -183,6 +204,7 @@ const TODOListPage = () => {
 						...prevState,
 						{
 							tid: todoD.tid,
+							uid: todoD.uid,
 							t_name: todoD.t_name,
 							t_created_date: todoD.t_created_date,
 							t_due_date: todoD.t_due_date,
@@ -197,7 +219,7 @@ const TODOListPage = () => {
 	if (loading) return <div>새로고침 하세요</div>;
 	return (
 		<div>
-			<NavigationBar />
+			<NavigationBar uid = {params.uid}/>
 			<h1>TODO Lists</h1>
 			<br></br>
 			<h3>
@@ -233,12 +255,12 @@ const TODOListPage = () => {
 			<h4>order</h4>
 			<Link
 				to={
-					"/TODOListPage/"+params.range+"/" +
+					"/TODOListPage/"+params.uid+"/"+params.range+"/" +
 					params.search +
 					"/" +
 					"tid" +
 					"/" +
-					(params.desc === "desc" ? "asc/1" : "desc/1")
+					(params.desc === "desc" ? "asc/1" : "desc/1/")
 				}
 			>
 				<button
@@ -258,12 +280,12 @@ const TODOListPage = () => {
 			</Link>
 			<Link
 				to={
-					"/TODOListPage/"+params.range+"/" +
+					"/TODOListPage/"+params.uid+"/"+params.range+"/" +
 					params.search +
 					"/" +
 					"t_name" +
 					"/" +
-					(params.desc === "desc" ? "asc/1" : "desc/1")
+					(params.desc === "desc" ? "asc/1" : "desc/1/")
 				}
 			>
 				<button
@@ -283,12 +305,12 @@ const TODOListPage = () => {
 			</Link>
 			<Link
 				to={
-					"/TODOListPage/"+params.range+"/" +
+					"/TODOListPage/"+params.uid+"/"+params.range+"/" +
 					params.search +
 					"/" +
 					"t_created_date" +
 					"/" +
-					(params.desc === "desc" ? "asc/1" : "desc/1")
+					(params.desc === "desc" ? "asc/1" : "desc/1/")
 				}
 			>
 				<button
@@ -308,12 +330,12 @@ const TODOListPage = () => {
 			</Link>
 			<Link
 				to={
-					"/TODOListPage/"+params.range+"/" +
+					"/TODOListPage/"+params.uid+"/"+params.range+"/" +
 					params.search +
 					"/" +
 					"t_due_date" +
 					"/" +
-					(params.desc === "desc" ? "asc/1" : "desc/1")
+					(params.desc === "desc" ? "asc/1" : "desc/1/")
 				}
 			>
 				<button
@@ -335,7 +357,7 @@ const TODOListPage = () => {
 			<div>
 				<Link
 					to={
-						"/TODOListPage/"+
+						"/TODOListPage/"+params.uid+"/"+
 						(params.range === "all"
 							? "undone"
 							: params.range === "undone"
@@ -347,7 +369,7 @@ const TODOListPage = () => {
 						params.order +
 						"/" +
 						params.desc+
-						"/1"
+						"/1/"
 					}
 				>
 					<button
@@ -369,7 +391,7 @@ const TODOListPage = () => {
 				</Link>
 				<Link
 					to={
-						"/TODOListPage/"+
+						"/TODOListPage/"+params.uid+"/"+
 						(params.range === "all"
 							? "done"
 							: params.range === "undone"
@@ -381,7 +403,7 @@ const TODOListPage = () => {
 						params.order +
 						"/" +
 						params.desc+
-						"/1"
+						"/1/"
 					}
 				>
 					<button
@@ -424,14 +446,14 @@ const TODOListPage = () => {
 			{page >= 2 ? (
 				<Link
 					to={
-						"/TODOListPage/"+params.range+"/" +
+						"/TODOListPage/"+params.uid+"/"+params.range+"/" +
 						params.search +
 						"/" +
 						params.order +
 						"/" +
 						params.desc +
 						"/" +
-						(page - 1)
+						(page - 1)+"/"
 					}
 				>
 					<button className="pageBtn">이전 페이지</button>
@@ -442,14 +464,14 @@ const TODOListPage = () => {
 			{todoDataList.length >= 10 ? (
 				<Link
 					to={
-						"/TODOListPage/"+params.range+"/" +
+						"/TODOListPage/"+params.uid+"/"+params.range+"/" +
 						params.search +
 						"/" +
 						params.order +
 						"/" +
 						params.desc +
 						"/" +
-						(page + 1)
+						(page + 1)+"/"
 					}
 				>
 					<button>다음 페이지</button>

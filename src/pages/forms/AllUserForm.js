@@ -1,44 +1,43 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-function AllCatFormElement({ category, uid,params }) {
+function AllUserFormElement({ user }) {
 	return (
 		<div
 			style={{
 				cursor: "pointer",
-				//color: movie.active ? 'green' : 'black'
 			}}
-			className="categories"
+			className="users"
 		>
-			<Link to={"/category/"  +uid+"/"+ category.category + params}>
-				<b>{category.category}</b>
+			<Link to={"/home/" + user.uid}>
+				<b>{user.u_name}</b>
 			</Link>
 			&nbsp;
 		</div>
 	);
 }
 
-function AllCatForm({ params, uid }) {
+function AllUserForm() {
 	const [loading, setLoading] = useState(true);
-	const [categories, setCategories] = useState([]);
+	const [users, setUsers] = useState([]);
 	useEffect(() => {
-		setCategories([]);
-		fetch("http://localhost:3001/category", {
+		setUsers([]);
+		fetch("http://localhost:3001/user", {
 			method: "post", //통신방법
 			headers: {
 				"content-type": "application/json",
 			},
 			body: JSON.stringify({
-				uid: uid,
 				tid: 0
 			}),
 		})
 			.then((res) => res.json())
 			.then((json) => {
-				json.map((category) =>
-					setCategories((prevState) => [
+				json.map((user) =>
+					setUsers((prevState) => [
 						...prevState,
 						{
-							category: category.category,
+							uid: user.uid,
+							u_name: user.u_name,
 						},
 					])
 				);
@@ -48,10 +47,10 @@ function AllCatForm({ params, uid }) {
 	if (loading) return <div>Loading...</div>;
 	return (
 		<div>
-			{categories.map((category) => (
-				<AllCatFormElement category={category} uid={uid} params={params}/>
+			{users.map((user) => (
+				<AllUserFormElement user={user}/>
 			))}
 		</div>
 	);
 }
-export default AllCatForm;
+export default AllUserForm;
