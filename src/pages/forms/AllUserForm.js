@@ -8,7 +8,7 @@ function AllUserFormElement({ user }) {
 			}}
 			className="users"
 		>
-			<Link to={"/home/" + user.uid}>
+			<Link to={"/TODOListPage/"+user.uid+"/all/ /t_created_date/asc/1/"}>
 				<b>{user.u_name}</b>
 			</Link>
 			&nbsp;
@@ -47,6 +47,7 @@ function AllUserForm() {
 	if (loading) return <div>Loading...</div>;
 	return (
 		<div>
+			<h3>Users</h3>
 			{users.map((user) => (
 				<AllUserFormElement user={user}/>
 			))}

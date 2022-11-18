@@ -19,14 +19,11 @@ const TODOListPage = () => {
 	const [todoDataList, setTodoDataList] = useState([]);
 	const onChangeSearchInput = (e) => setSearchInput(e.target.value);
 
+
 	const TODOAdd = ({paramString}) => {
 		const [tName, setTName] = useState("");
 		const onChangeTName = (e) => setTName(e.target.value);
 		const navigate = useNavigate();
-		const [tCategory, setTCategory] = useState("");
-		const [tCategories, setTCategories] = useState([]);
-		const onChangeTCategory = (e) => setTCategory(e.target.value);
-		const onClickTCategory = () => {tCategory.split('#').map((str)=>setTCategories((prev)=>[...prev, str.trim(),]))};
 		const [tDueDate, setTDueDate] = useState("2022-12-05 00:00:00");
 		const onChangeTDueDateD = (e) => {
 			setTDueDate(e.target.value+" "+
@@ -52,7 +49,6 @@ const TODOListPage = () => {
 					t_due_date: tDueDate,
 					t_done: tDone,
 					t_memo: tMemo,
-					cat: tCategories
 				}),
 			});
 			// fetch("http://localhost:3001/test", {
@@ -95,18 +91,6 @@ const TODOListPage = () => {
 						</div>
 						
 						<br></br>
-						<div>
-							카테고리 {"\t"}: {"\t"}
-								<input
-									type="text"
-									name="tCategory"
-									placeholder={"#로 구분"}
-									onChange={onChangeTCategory}
-								/>
-								<button
-									onClick={onClickTCategory}>추가</button>
-								{tCategories.length}
-						</div>
 						<br></br>
 						<br></br>
 						<div>

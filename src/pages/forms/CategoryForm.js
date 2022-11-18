@@ -17,9 +17,26 @@ function CategoryFormElement({ category, uid, params }) {
 	);
 }
 
-function CategoryForm({ tid, uid, params }) {
+function CategoryForm({ tid, uid, params, del }) {
 	const [loading, setLoading] = useState(true);
 	const [categories, setCategories] = useState([]);
+	const [catName, setCatName] = useState("");
+	const onClickDelCat = (catName, e)=>{
+		fetch("http://localhost:3001/category", {
+				method: "delete", //통신방법
+				headers: {
+					"content-type": "application/json",
+				},
+				body: JSON.stringify({
+					tid: tid,
+					category: catName
+				}),
+		});
+		console.log(catName);
+		setCategories(categories.filter((data) => {
+            return data.category !== catName
+        }))
+	}
 	useEffect(() => {
 		setCategories([]);
 		fetch("http://localhost:3001/category", {
@@ -48,9 +65,16 @@ function CategoryForm({ tid, uid, params }) {
 	if (loading) return <div>Loading...</div>;
 	return (
 		<div>
-			{categories.map((category) => (
+			{del?
+			categories.map((category) => (
 				<CategoryFormElement category={category} uid={uid} params={params}/>
-			))}
+			)) : 
+			categories.map((category)=>(
+					<div>
+						{category.category}<button onClick={(e)=>onClickDelCat(category.category, e)}>삭제</button>
+					</div>
+				))
+			}
 		</div>
 	);
 }

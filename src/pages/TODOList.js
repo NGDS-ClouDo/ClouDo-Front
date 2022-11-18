@@ -10,10 +10,22 @@ const TODOListElement = ({ todoData, paramString }) => {
 	const navigate = useNavigate();
 	const onChangeTName = (e) => setTName(e.target.value);
 	const [tDueDate, setTDueDate] = useState(todoData.t_due_date);
-	const [tCategories, setTCategories] = useState([]);
 	const [tCategory, setTCategory] = useState("");
 	const onChangeTCategory = (e) => setTCategory(e.target.value);
-	const onClickTCategory = () => {tCategory.split('#').map((str)=>setTCategories((prev)=>[...prev, str.trim(),]))};
+	const onClickTCategory = () => {
+		tCategory !=="" ?
+		fetch("http://localhost:3001/NewCategory", {
+		method: "put", //통신방법
+		headers: {
+			"content-type": "application/json",
+		},
+		body: JSON.stringify({
+			tid: todoData.tid,
+			uid: todoData.uid,
+			category: tCategory
+		}),}) 
+		: setTCategory("");
+	setTCatEdit(false)};
 	const onChangeTDueDateD = (e) => {
 		setTDueDate(e.target.value+" "+
 		moment(tDueDate).format(
@@ -25,7 +37,11 @@ const TODOListElement = ({ todoData, paramString }) => {
 		)+" "+e.target.value);};
 	const [tDone, setTDone] = useState(todoData.t_done);
 	const [tMemo, setTMemo] = useState(todoData.t_memo);
+	const [tCatEdit, setTCatEdit] = useState(false);
 	const onChangeTMemo = (e) => setTMemo(e.target.value);
+	const onClickCatEdit = () => setTCatEdit(!tCatEdit);
+
+
 	const onClickConfirm = () => {
 		fetch("http://localhost:3001/ToDoEdit", {
 			method: "put", //통신방법
@@ -95,18 +111,30 @@ const TODOListElement = ({ todoData, paramString }) => {
 					<br></br>
 					<div>
 						카테고리 {"\t"}: {"\t"}
-						{tEdit ?
+						{
+							tCatEdit? 
 							<div>
 								<input
 									type="text"
 									name="tCategory"
-									placeholder={"#로 구분"}
+									placeholder={"추가할 카테고리 입력"}
 									onChange={onChangeTCategory}
 								/>
 								<button
 									onClick={onClickTCategory}>추가</button>
+
+								<div>
+									<CategoryForm tid={todoData.tid} uid = {todoData.uid} params={paramString} del={false}  ></CategoryForm>
+								</div>:
 							</div>:
-							<CategoryForm tid={todoData.tid} uid = {todoData.uid} params={paramString}></CategoryForm>
+							<div>
+								<CategoryForm tid={todoData.tid} uid = {todoData.uid} params={paramString} del={true} ></CategoryForm>
+								<button
+									onClick={onClickCatEdit}>
+										카테고리 수정
+								</button>
+							</div>
+							
 						}
 					</div>
 					<br></br>

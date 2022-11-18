@@ -5,8 +5,8 @@ function NavigationBar({uid}) {
 	return (
 		<div className="navigationBar">
 			<div>
-				<Link to={"/home/"+uid+"/"} className="nav_HomeBtn">
-					홈으로
+				<Link to={"/home/"} className="nav_HomeBtn">
+					Back To Home
 				</Link>
 			</div>
 			<div>

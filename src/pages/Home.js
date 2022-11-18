@@ -4,6 +4,7 @@ import "./css/Home.css";
 import { useState } from "react";
 import moment from "moment";
 import AllUserForm from "./forms/AllUserForm";
+import NavigationBarHome from "./fragments/NavigationBarHome";
 
 const Home = () => {
 	const params = useParams();
@@ -45,7 +46,7 @@ const Home = () => {
 	}
 	return (
 		<div className="home">
-			<NavigationBar uid ={params.uid === undefined | params.uid === "" ? "0" : params.uid} />
+			<NavigationBarHome uid ={params.uid === undefined | params.uid === "" ? "0" : params.uid} />
 			<h1>차세대분산시스템 Term Project</h1>
 			<h1>10조</h1>
 			<p>
@@ -58,7 +59,7 @@ const Home = () => {
 				<b>프론트엔드: </b> React<br></br>
 			</p>
 			<h3>User List User 추가</h3>
-			
+			{params.uid === undefined | params.uid === "" ? "0" : params.uid}
 			{AddUser ? <div><TODOAdd AddUser={AddUser}></TODOAdd><button onClick={onClickAddUserBtn}>취소</button></div>:<button onClick={onClickAddUserBtn}>추가</button>}
 			<br></br>
 			<AllUserForm />

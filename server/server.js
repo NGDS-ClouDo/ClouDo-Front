@@ -77,12 +77,39 @@ app.put("/TodoEdit", (req, res) => {
 
 app.put("/NewTodo", (req, res) => {
 	console.log(req.body);
+	// var qstr = "insert into todoData(uid, t_name, t_due_date, t_done, t_memo) values ("
+	// +req.body.uid +", '"
+	// + req.body.t_name 
+	// +"', '"+req.body.t_due_date
+	// +"', "+req.body.t_done
+	// +", '"+req.body.t_memo +"');"
+	// var i = ""
+	// if( req.body.category.length !== 0)
+	// {
+	// 	qstr.concat(" insert into todoCategory(tid, uid, category) values ")
+	// 	for(i in req.body.category){
+	// 		qstr.concat("("+req.body.uid +", "+)
+	// 	}
+	// }
 	db.query("insert into todoData(uid, t_name, t_due_date, t_done, t_memo) values ("
 	+req.body.uid +", '"
 	+ req.body.t_name 
 	+"', '"+req.body.t_due_date
 	+"', "+req.body.t_done
 	+", '"+req.body.t_memo +"')"
+	 , async function (err, rows, fields) {
+		if (err) {
+			console.log("데이터 가져오기 실패");
+		} else {
+			console.log(rows);
+		}
+	});
+});
+
+app.delete("/category", (req, res) => {
+	console.log(req.body);
+	db.query("delete from todoCategory where tid="+req.body.tid+" and category ='"
+	+ req.body.category +"'"
 	 , async function (err, rows, fields) {
 		if (err) {
 			console.log("데이터 가져오기 실패");
@@ -105,6 +132,20 @@ app.put("/NewUser", (req, res) => {
 	});
 
 });
+
+app.put("/NewCategory", (req, res) => {
+	console.log(req.body);
+	db.query("insert into todoCategory(tid, uid, category) values ("
+	+ req.body.tid+", "+req.body.uid+", '"+req.body.category +"')"
+	 , async function (err, rows, fields) {
+		if (err) {
+			console.log("데이터 가져오기 실패");
+		} else {
+			console.log(rows);
+		}
+	});
+});
+
 app.post("/user", (req, res) => {
 	console.log(req.body);
 	db.query("SELECT * FROM todoUser" , async function (err, rows, fields) {
