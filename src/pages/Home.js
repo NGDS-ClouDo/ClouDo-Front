@@ -1,5 +1,6 @@
+import React, { Component }  from 'react'
+import ReactDOM from 'react-dom'
 import {useNavigate, useParams } from "react-router-dom";
-import NavigationBar from "./fragments/NavigationBar";
 import "./css/Home.css";
 import { useState } from "react";
 import moment from "moment";
