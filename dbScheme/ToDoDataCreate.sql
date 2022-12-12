@@ -20,6 +20,7 @@ create table Record(
     on update cascade
     on delete cascade
 );
+
 ALTER table User auto_increment = 1;
 create table Category(
 	recordID int,
@@ -34,12 +35,13 @@ create table Category(
     on delete cascade,
     primary key (recordID, categoryName)
 );
+
 insert into User(userName)
 values
-('u1'),
-("u2"),
-("u3"),
-("u4");
+('tesetUser1'),
+("tesetUser2"),
+("tesetUser3"),
+("tesetUser4");
 
 insert into Record(userID, recordName, recordCreatedDate, recordDueDate,recordDone, recordMemo)
 values

@@ -1,11 +1,10 @@
-import React, { Component }  from 'react'
-import ReactDOM from 'react-dom'
-import {useNavigate, useParams } from "react-router-dom";
+import React from 'react'
+import {useParams } from "react-router-dom";
 import "./css/Home.css";
 import { useState } from "react";
-import moment from "moment";
 import AllUserForm from "./forms/AllUserForm";
 import NavigationBarHome from "./fragments/NavigationBarHome";
+import { ADDRESS } from './Address';
 
 const Home = () => {
 	const params = useParams();
@@ -14,9 +13,8 @@ const Home = () => {
 	const TODOAdd = () => {
 		const [uName, setUName] = useState("");
 		const onChangeUName = (e) => setUName(e.target.value);
-		const navigate = useNavigate();
 		const onClickConfirm = () => {
-			fetch("http://localhost:3001/user/add/", {
+			fetch(ADDRESS+"/user/add/", {
 				method: "post", //통신방법
 				headers: {
 					"content-type": "application/json",
@@ -46,24 +44,21 @@ const Home = () => {
 		);
 	}
 	return (
-		<div className="home">
+		<div>
 			<NavigationBarHome userID ={params.userID === undefined | params.userID === "" ? "0" : params.userID} />
-			<h1>차세대분산시스템 Term Project</h1>
-			<h1>10조</h1>
-			<p>
-				<b>강성범: </b>백엔드, DB 설계, 요청 API 설계<br></br>
-				<b>김주혜: </b>쿠버네티스 연구, githubAction 연구<br></br>
-				<b>이찬하: </b>프론트, DB 설계, 요청 API 설계<br></br>
-			</p>
-			<p>
-				<b>백엔드: </b> Spring<br></br>
-				<b>프론트엔드: </b> React, Nodejs<br></br>
-			</p>
-			<h3>User List User 추가</h3>
-			{params.userID === undefined | params.userID === "" ? "0" : params.userID}
-			{AddUser ? <div><TODOAdd AddUser={AddUser}></TODOAdd><button onClick={onClickAddUserBtn}>취소</button></div>:<button onClick={onClickAddUserBtn}>추가</button>}
-			<br></br>
-			<AllUserForm />
+			<div className="home">
+				<h1>Welcome to ClouDo</h1>
+				<h3>10조 강성범 김주혜 이찬하</h3>
+				<p>
+					<b>프론트엔드: </b> React, Nodejs<br></br>
+					<b>백엔드: </b> Spring<br></br>
+				</p>
+				<h3>User List User 추가</h3>
+				{params.userID === undefined | params.userID === "" ? "0" : params.userID}
+				{AddUser ? <div><TODOAdd AddUser={AddUser}></TODOAdd><button onClick={onClickAddUserBtn}>취소</button></div>:<button onClick={onClickAddUserBtn}>추가</button>}
+				<br></br>
+				<AllUserForm className="userNameForm"/>
+			</div>
 		</div>
 	);
 };

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { ADDRESS } from "../Address";
 function AllCatFormElement({ category, userID,params }) {
 	return (
 		<div
@@ -22,7 +23,7 @@ function AllCatForm({ params, userID }) {
 	const [categories, setCategories] = useState([]);
 	useEffect(() => {
 		setCategories([]);
-		fetch("http://localhost:3001/category/all/", {
+		fetch(ADDRESS+"/category/all/", {
 			method: "post", //통신방법
 			headers: {
 				"content-type": "application/json",

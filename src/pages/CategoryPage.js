@@ -5,6 +5,7 @@ import TODOList from "./TODOList";
 import AllCatForm from "./forms/AllCatForm";
 import "./css/Category.css";
 import UserNameForm from "./forms/UserNameForm";
+import { ADDRESS } from "./Address";
 
 const CategoryPage = () => {
 	const params = useParams();
@@ -38,7 +39,7 @@ const CategoryPage = () => {
 	useEffect(() => {
 		setTodoDataList([]);
 		setParamString(()=>"/"+(params.doneOrNot ===" "? "all": params.doneOrNot)+"/ /"+(params.orderBy ===" "? "recordCreatedDate": params.orderBy)+"/"+(params.desc ===" "? "asc": params.desc)+"/1");
-		fetch("http://localhost:3001/record/category/", {
+		fetch(ADDRESS+"/record/category/", {
 			method: "post", //통신방법
 			headers: {
 				"content-type": "application/json",
@@ -159,7 +160,7 @@ const CategoryPage = () => {
 							: "unselectedOrderBtn"
 					}
 				>
-					{"이름 \n" +
+					{"제목 \n" +
 						(params.orderBy === "recordName"
 							? params.desc === "desc"
 								? " ↓"

@@ -22,8 +22,8 @@
 	margin: 2px;
 	border: 1px solid gray;
     border-radius: 10px;
-    background-color: bisque;
+    background-color: rgb(255, 243, 227);
     margin-bottom: 1em;
     margin-right: 1em;
-    border:2px solid orange;
+    border:2px solid rgb(255, 230, 184);
 }

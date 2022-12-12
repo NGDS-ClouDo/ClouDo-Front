@@ -1,51 +1,59 @@
 
 .navigationBar{
 	display: flex;
-    margin-bottom: 2em;
-    background-color: aquamarine;
+    margin-bottom: 1em;
+    background-color: rgb(161, 177, 241);
     width: 100%;
-    padding: 3em;
+    padding: 2em;
 }
 
 .nav_HomeBtn{
     margin-left: 1em;
     margin-right: 1em;
     text-decoration: none;
-    color: black;
-    padding: 2em;
-    border:1px solid black;
+    color: rgb(255, 255, 255);
+	font-weight: bold;
+	font-size: 1.5em;
+    padding-left: 1em;
+	padding-right: 1em;
 }
 
 .nav_TDLBtn{
     margin-left: 1em;
     margin-right: 1em;
     text-decoration: none;
-    color: black;
-    padding: 2em;
-    border:1px solid black;
+    color: rgb(255, 255, 255);
+	font-weight: bold;
+	font-size: 1.5em;
+    padding-left: 1em;
+	padding-right: 1em;
 }
 
 .nav_ActorBtn{
     margin-left: 1em;
     margin-right: 1em;
     text-decoration: none;
-    color: black;
-    padding: 2em;
-    border:1px solid black;
+    color: rgb(255, 255, 255);
+	font-weight: bold;
+	font-size: 1.5em;
+    padding-left: 1em;
+	padding-right: 1em;
 }
 .nav_DirectorBtn{
     margin-left: 1em;
     margin-right: 1em;
     text-decoration: none;
-    color: black;
-    padding: 2em;
-    border:1px solid black;
+    color: rgb(255, 255, 255);
+	font-weight: bold;
+	font-size: 1.5em;
+    padding-left: 1em;
+	padding-right: 1em;
 }
 .nav_GenreBtn{
     margin-left: 1em;
     margin-right: 1em;
     text-decoration: none;
-    color: black;
+	font-weight: bold;
+    color: white;
     padding: 2em;
-    border:1px solid black;
 }

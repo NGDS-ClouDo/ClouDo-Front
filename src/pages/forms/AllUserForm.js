@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { ADDRESS } from "../Address";
 function AllUserFormElement({ user }) {
 	return (
 		<div
@@ -21,7 +22,7 @@ function AllUserForm() {
 	const [users, setUsers] = useState([]);
 	useEffect(() => {
 		setUsers([]);
-		fetch("http://localhost:3001/user/all", {
+		fetch(ADDRESS+"/user/all", {
 			method: "post", //통신방법
 			headers: {
 				"content-type": "application/json",

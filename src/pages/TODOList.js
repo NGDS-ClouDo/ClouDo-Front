@@ -1,9 +1,10 @@
 import React from 'react';
 import moment from "moment";
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import CategoryForm from "./forms/CategoryForm";
 import "./css/TODOList.css";
+import {ADDRESS} from "./Address"
 
 const TODOListElement = ({ record, paramString }) => {
 	const [tEdit, setTEdit] = useState(false);
@@ -15,7 +16,7 @@ const TODOListElement = ({ record, paramString }) => {
 	const onChangeCategoryNameInput = (e) => setCategoryNameInput(e.target.value);
 	const onClickCategoryNameInputConfirm = () => {
 		categoryNameInput !=="" ?
-		fetch("http://localhost:3001/category/add/", {
+		fetch(ADDRESS+"/category/add/", {
 		method: "post", //통신방법
 		headers: {
 			"content-type": "application/json",
@@ -44,7 +45,7 @@ const TODOListElement = ({ record, paramString }) => {
 
 
 	const onClickEditConfirm = () => {
-		fetch("http://localhost:3001/record/edit/", {
+		fetch(ADDRESS+"/record/edit/", {
 			method: "post", //통신방법
 			headers: {
 				"content-type": "application/json",
@@ -63,7 +64,7 @@ const TODOListElement = ({ record, paramString }) => {
 		);
 	};
 	const onClickRemoveRecord = () => {
-		fetch("http://localhost:3001/record/remove/", {
+		fetch(ADDRESS+"/record/remove/", {
 			method: "delete", //통신방법
 			headers: {
 				"content-type": "application/json",

@@ -1,18 +1,38 @@
+
+@font-face {
+	font-family: "SeoulHangang";
+	src: url("./fonts/SeoulHangangB.ttf"), format('truetype');
+}
+
+.todopage{
+	background-color: #f9f6f1ef;
+}
+
+.todolistpage{
+	margin-left: 1em;
+	font-family: "SeoulHangang";
+	font-weight:500;
+}
 .pageBtn{
     margin:1em
 }
 
 .selectedOrderBtn{
-    background-color: rgb(255, 197, 127);
-    color: black;
-    border: 1px solid orange;
+    background-color: rgb(148, 169, 239);
+    color: rgb(68, 68, 68);
+    border: 1px solid rgb(51, 124, 234);
+	font-weight: bold;
     border-radius: 3px;
     margin-right: 0.5em;
 }
 
 .unselectedOrderBtn{
-    background-color: gray;
-    color: antiquewhite;
+    background-color: rgba(137, 164, 165, 0.924);
+    color: black;
     border-radius: 3px;
     margin-right: 0.5em;
+}
+
+.username{
+	font-weight: bold;
 }

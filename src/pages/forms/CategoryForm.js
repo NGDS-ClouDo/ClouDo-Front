@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { ADDRESS } from "../Address";
 function CategoryFormElement({ category, userID, params }) {
 	return (
 		<div
@@ -21,7 +22,7 @@ function CategoryForm({ recordID, userID, params, del }) {
 	const [loading, setLoading] = useState(true);
 	const [categories, setCategories] = useState([]);
 	const onClickDelCat = (categoryN, e)=>{
-		fetch("http://localhost:3001/category/remove", {
+		fetch(ADDRESS+"/category/remove", {
 				method: "delete", //통신방법
 				headers: {
 					"content-type": "application/json",
@@ -38,7 +39,7 @@ function CategoryForm({ recordID, userID, params, del }) {
 	}
 	useEffect(() => {
 		setCategories([]);
-		fetch("http://localhost:3001/category", {
+		fetch(ADDRESS+"/category", {
 			method: "post", //통신방법
 			headers: {
 				"content-type": "application/json",

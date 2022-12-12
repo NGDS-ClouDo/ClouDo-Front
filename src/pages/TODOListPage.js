@@ -6,6 +6,7 @@ import TODOList from "./TODOList";
 import "./css/TODOListPage.css";import "./css/TODOList.css";
 import moment from "moment";
 import UserNameForm from "./forms/UserNameForm";
+import {ADDRESS} from "./Address"
 
 
 
@@ -40,7 +41,7 @@ const TODOListPage = () => {
 		const [recordMemoInput, setRecordMemoInput] = useState("");
 		const onChangeRecordMemoInput = (e) => setRecordMemoInput(e.target.value);
 		const onClickRecordAddConfirm = () => {
-			fetch("http://localhost:3001/record/add/", {
+			fetch(ADDRESS+"/record/add/", {
 				method: "post", //통신방법
 				headers: {
 					"content-type": "application/json",
@@ -190,239 +191,242 @@ const TODOListPage = () => {
 	}, [params]);
 	if (loading) return <div>새로고침 하세요</div>;
 	return (
-		<div>
+		<div className='todopage' >
 			<NavigationBar userID = {params.userID}/>
-			<h1><UserNameForm userID = {params.userID}/>의 TODO Lists</h1>
-			<br></br>
-			<h3>
-				{"대상: " +
-					(params.doneOrNot === "all"
-						? "모든 작업"
-						: params.doneOrNot === "done"
-						? "완료된 작업"
-						: params.doneOrNot === "undone"
-						? "완료되지 않은 작업"
-						: "")}
-			</h3>
-			<h3>
-				{"정렬: " +
-					(params.orderBy === "recordCreatedDate"
-						? params.desc === "desc"
-							? "등록일 나중순"
-							: "등록일 최근순"
-						: params.orderBy === "recordDueDate"
-						? params.desc === "desc"
-							? "마감일 나중순"
-							: "마감일 최근순"
-						: params.orderBy === "recordName"
-						? params.desc === "desc"
-							? "제목 내림차순"
-							: "제목 오름차순"
-						: "")}
-			</h3>
-			<h4>order</h4>
-			<Link
-				to={
-					"/TODOListPage/"+params.userID+"/"+params.doneOrNot+"/" +
-					params.search +
-					"/" +
-					"recordName" +
-					"/" +
-					(params.desc === "desc" ? "asc/1" : "desc/1/")
-				}
-			>
-				<button
-					className={
-						params.orderBy === "recordName"
-							? "selectedOrderBtn"
-							: "unselectedOrderBtn"
-					}
-				>
-					{"이름 \n" +
-						(params.orderBy === "recordName"
-							? params.desc === "desc"
-								? " ↓"
-								: " ↑"
+			<div className='todolistpage'>
+				<h1 className='username'><UserNameForm  userID = {params.userID}/>의 TODO Lists</h1>
+				{/* <br></br>
+				<div>
+					{"대상: " +
+						(params.doneOrNot === "all"
+							? "모든 작업"
+							: params.doneOrNot === "done"
+							? "완료된 작업"
+							: params.doneOrNot === "undone"
+							? "완료되지 않은 작업"
 							: "")}
-				</button>
-			</Link>
-			<Link
-				to={
-					"/TODOListPage/"+params.userID+"/"+params.doneOrNot+"/" +
-					params.search +
-					"/" +
-					"recordCreatedDate" +
-					"/" +
-					(params.desc === "desc" ? "asc/1" : "desc/1/")
-				}
-			>
-				<button
-					className={
-						params.orderBy === "recordCreatedDate"
-							? "selectedOrderBtn"
-							: "unselectedOrderBtn"
-					}
-				>
-					{"등록일 " +
+				</div>
+				<div>
+					{"정렬: " +
 						(params.orderBy === "recordCreatedDate"
 							? params.desc === "desc"
-								? " ↓"
-								: " ↑"
-							: "")}
-				</button>
-			</Link>
-			<Link
-				to={
-					"/TODOListPage/"+params.userID+"/"+params.doneOrNot+"/" +
-					params.search +
-					"/" +
-					"recordDueDate" +
-					"/" +
-					(params.desc === "desc" ? "asc/1" : "desc/1/")
-				}
-			>
-				<button
-					className={
-						params.orderBy === "recordDueDate"
-							? "selectedOrderBtn"
-							: "unselectedOrderBtn"
-					}
-				>
-					{"마감일 " +
-						(params.orderBy === "recordDueDate"
+								? "등록일 나중순"
+								: "등록일 최근순"
+							: params.orderBy === "recordDueDate"
 							? params.desc === "desc"
-								? " ↓"
-								: " ↑"
+								? "마감일 나중순"
+								: "마감일 최근순"
+							: params.orderBy === "recordName"
+							? params.desc === "desc"
+								? "제목 내림차순"
+								: "제목 오름차순"
 							: "")}
-				</button>
-			</Link>
-			<h4>range</h4>
-			<div>
+				</div> */}
+				<h4>search</h4>
+				<div>
+					<input
+						type="text"
+						name="message"
+						placeholder="검색할 내용 또는 제목"
+						value={searchInput}
+						onChange={onChangeSearchInput}
+						onKeyPress={onKeyPress}
+					/>
+					<button onClick={onClickSearch}>검색</button>
+				</div>
+				<br></br>
+				<h4 >정렬 순서</h4>
 				<Link
 					to={
-						"/TODOListPage/"+params.userID+"/"+
-						(params.doneOrNot === "all"
-							? "undone"
-							: params.doneOrNot === "undone"
-							? "all"
-							: "undone") +
-						"/" +
+						"/TODOListPage/"+params.userID+"/"+params.doneOrNot+"/" +
 						params.search +
 						"/" +
-						params.orderBy +
+						"recordName" +
 						"/" +
-						params.desc+
-						"/1/"
+						(params.desc === "desc" ? "asc/1" : "desc/1/")
 					}
 				>
 					<button
 						className={
-							params.doneOrNot === "all"
-								? "selectedOrderBtn"
-								: params.doneOrNot === "done"
+							params.orderBy === "recordName"
 								? "selectedOrderBtn"
 								: "unselectedOrderBtn"
 						}
 					>
-						{"완료" +
-							(params.doneOrNot === "all"
-									? " 포함"
-									: params.doneOrNot === "done"
-									? " 포함"
-									: " 미포함")}
+						{"제목 \n" +
+							(params.orderBy === "recordName"
+								? params.desc === "desc"
+									? " ↓"
+									: " ↑"
+								: "")}
 					</button>
 				</Link>
 				<Link
 					to={
-						"/TODOListPage/"+params.userID+"/"+
-						(params.doneOrNot === "all"
-							? "done"
-							: params.doneOrNot === "undone"
-							? "done"
-							: "all") +
-						"/" +
+						"/TODOListPage/"+params.userID+"/"+params.doneOrNot+"/" +
 						params.search +
 						"/" +
-						params.orderBy +
+						"recordCreatedDate" +
 						"/" +
-						params.desc+
-						"/1/"
+						(params.desc === "desc" ? "asc/1" : "desc/1/")
 					}
 				>
 					<button
 						className={
-							params.doneOrNot === "all"
+							params.orderBy === "recordCreatedDate"
 								? "selectedOrderBtn"
+								: "unselectedOrderBtn"
+						}
+					>
+						{"등록일 " +
+							(params.orderBy === "recordCreatedDate"
+								? params.desc === "desc"
+									? " ↓"
+									: " ↑"
+								: "")}
+					</button>
+				</Link>
+				<Link
+					to={
+						"/TODOListPage/"+params.userID+"/"+params.doneOrNot+"/" +
+						params.search +
+						"/" +
+						"recordDueDate" +
+						"/" +
+						(params.desc === "desc" ? "asc/1" : "desc/1/")
+					}
+				>
+					<button
+						className={
+							params.orderBy === "recordDueDate"
+								? "selectedOrderBtn"
+								: "unselectedOrderBtn"
+						}
+					>
+						{"마감일 " +
+							(params.orderBy === "recordDueDate"
+								? params.desc === "desc"
+									? " ↓"
+									: " ↑"
+								: "")}
+					</button>
+				</Link>
+				<h4>완료 여부</h4>
+				<div>
+					<Link
+						to={
+							"/TODOListPage/"+params.userID+"/"+
+							(params.doneOrNot === "all"
+								? "undone"
 								: params.doneOrNot === "undone"
-								? "selectedOrderBtn"
-								: "unselectedOrderBtn"
+								? "all"
+								: "undone") +
+							"/" +
+							params.search +
+							"/" +
+							params.orderBy +
+							"/" +
+							params.desc+
+							"/1/"
 						}
 					>
-						{"미완료" +
+						<button
+							className={
+								params.doneOrNot === "all"
+									? "selectedOrderBtn"
+									: params.doneOrNot === "done"
+									? "selectedOrderBtn"
+									: "unselectedOrderBtn"
+							}
+						>
+							{"완료" +
+								(params.doneOrNot === "all"
+										? " 포함"
+										: params.doneOrNot === "done"
+										? " 포함"
+										: " 미포함")}
+						</button>
+					</Link>
+					<Link
+						to={
+							"/TODOListPage/"+params.userID+"/"+
 							(params.doneOrNot === "all"
-									? " 포함"
+								? "done"
+								: params.doneOrNot === "undone"
+								? "done"
+								: "all") +
+							"/" +
+							params.search +
+							"/" +
+							params.orderBy +
+							"/" +
+							params.desc+
+							"/1/"
+						}
+					>
+						<button
+							className={
+								params.doneOrNot === "all"
+									? "selectedOrderBtn"
 									: params.doneOrNot === "undone"
-									? " 포함"
-									: " 미포함")}
-					</button>
-				</Link>
+									? "selectedOrderBtn"
+									: "unselectedOrderBtn"
+							}
+						>
+							{"미완료" +
+								(params.doneOrNot === "all"
+										? " 포함"
+										: params.doneOrNot === "undone"
+										? " 포함"
+										: " 미포함")}
+						</button>
+					</Link>
+				</div>
+				
+				<h3>ToDo List 추가{AddRecord ? <div><RecordAddComponent paramString={paramString}></RecordAddComponent><button onClick={onClickAddRecordBtn}>취소</button></div>:<button onClick={onClickAddRecordBtn}>추가</button>}</h3>
+				
+				
 			</div>
-			<h4>search</h4>
-			<div>
-				<input
-					type="text"
-					name="message"
-					placeholder="검색할 내용 또는 제목"
-					value={searchInput}
-					onChange={onChangeSearchInput}
-					onKeyPress={onKeyPress}
-				/>
-				<button onClick={onClickSearch}>검색</button>
+				<br></br>
+				<TODOList recordList={recordList} params={paramString} />
+				<br></br>
+				{page >= 2 ? (
+					<Link
+						to={
+							"/TODOListPage/"+params.userID+"/"+params.doneOrNot+"/" +
+							params.search +
+							"/" +
+							params.orderBy +
+							"/" +
+							params.desc +
+							"/" +
+							(page - 1)+"/"
+						}
+					>
+						<button className="pageBtn">이전 페이지</button>
+					</Link>
+				) : (
+					"       "
+				)}
+				{recordList.length >= 10 ? (
+					<Link
+						to={
+							"/TODOListPage/"+params.userID+"/"+params.doneOrNot+"/" +
+							params.search +
+							"/" +
+							params.orderBy +
+							"/" +
+							params.desc +
+							"/" +
+							(page + 1)+"/"
+						}
+					>
+						<button>다음 페이지</button>
+					</Link>
+				) : (
+					""
+				)}
 			</div>
-			<br></br>
-			<h3>ToDo List 추가</h3>
-			
-			{AddRecord ? <div><RecordAddComponent paramString={paramString}></RecordAddComponent><button onClick={onClickAddRecordBtn}>취소</button></div>:<button onClick={onClickAddRecordBtn}>추가</button>}
-			<br></br>
-			<TODOList recordList={recordList} params={paramString} />
-			<br></br>
-			{page >= 2 ? (
-				<Link
-					to={
-						"/TODOListPage/"+params.userID+"/"+params.doneOrNot+"/" +
-						params.search +
-						"/" +
-						params.orderBy +
-						"/" +
-						params.desc +
-						"/" +
-						(page - 1)+"/"
-					}
-				>
-					<button className="pageBtn">이전 페이지</button>
-				</Link>
-			) : (
-				"       "
-			)}
-			{recordList.length >= 10 ? (
-				<Link
-					to={
-						"/TODOListPage/"+params.userID+"/"+params.doneOrNot+"/" +
-						params.search +
-						"/" +
-						params.orderBy +
-						"/" +
-						params.desc +
-						"/" +
-						(page + 1)+"/"
-					}
-				>
-					<button>다음 페이지</button>
-				</Link>
-			) : (
-				""
-			)}
-		</div>
 	);
 };
 

@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { ADDRESS } from "../Address";
 
 function UserNameForm({userID}) {
 	const [loading, setLoading] = useState(true);
 	const [userName, setUserName] = useState("");
 	useEffect(() => {
-		fetch("http://localhost:3001/user", {
+		fetch(ADDRESS+"/user", {
 			method: "post", //통신방법
 			headers: {
 				"content-type": "application/json",
