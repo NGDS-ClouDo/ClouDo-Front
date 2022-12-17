@@ -156,7 +156,7 @@ const TODOListPage = () => {
 	useEffect(() => {
 		setRecordList([]);
 		setParamString(()=>"/"+(params.doneOrNot ===" "? "all": params.doneOrNot)+"/ /"+(params.orderBy ===" "? "recordCreatedDate": params.orderBy)+"/"+(params.desc ===" "? "asc": params.desc)+"/1/");
-		fetch("http://localhost:3001/record", {
+		fetch(ADDRESS+"/record", {
 			method: "post", //통신방법
 			headers: {
 				"content-type": "application/json",
